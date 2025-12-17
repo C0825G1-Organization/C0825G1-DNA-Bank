@@ -1,42 +1,70 @@
 package com.codegym.dna_bank.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
-@Entity
-@Table(name = "dna_samples")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class DNASample {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "sample_id")
     private Integer sampleId;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private Users user;
-
-    @Column(name = "gender", length = 1)
+    private Integer userId;
     private String gender;
-
-    @Column(name = "test_date")
     private LocalDate testDate;
-
-    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "dnaSample", cascade = CascadeType.ALL)
-    private List<DNALocusResult> locusResults;
+    public DNASample() {
+    }
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
+    public DNASample(Integer userId, String gender, LocalDate testDate) {
+        this.userId = userId;
+        this.gender = gender;
+        this.testDate = testDate;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public DNASample(Integer sampleId, Integer userId, String gender, LocalDate testDate, LocalDateTime createdAt) {
+        this.sampleId = sampleId;
+        this.userId = userId;
+        this.gender = gender;
+        this.testDate = testDate;
+        this.createdAt = createdAt;
+    }
+
+    public Integer getSampleId() {
+        return sampleId;
+    }
+
+    public void setSampleId(Integer sampleId) {
+        this.sampleId = sampleId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public LocalDate getTestDate() {
+        return testDate;
+    }
+
+    public void setTestDate(LocalDate testDate) {
+        this.testDate = testDate;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

@@ -1,40 +1,87 @@
-// ComparisonLocusResult.java (bao gồm inner class ComparisonLocusResultId)
-
 package com.codegym.dna_bank.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
 import java.math.BigDecimal;
 import java.io.Serializable;
+import java.util.Objects;
 
-@Entity
-@Table(name = "comparison_locus_results")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@IdClass(ComparisonLocusResult.ComparisonLocusResultId.class)
 public class ComparisonLocusResult {
-
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "comparison_id", nullable = false)
-    private ComparisonResult comparisonResult;
-
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "locus_id", nullable = false)
-    private Locus locus;
-
-    @Column(name = "pi_value", nullable = false, precision = 10, scale = 4)
+    private Integer comparisonId;
+    private Integer locusId;
     private BigDecimal piValue;
 
+    public ComparisonLocusResult() {
+    }
+
+    public ComparisonLocusResult(Integer comparisonId, Integer locusId, BigDecimal piValue) {
+        this.comparisonId = comparisonId;
+        this.locusId = locusId;
+        this.piValue = piValue;
+    }
+
+    public Integer getComparisonId() {
+        return comparisonId;
+    }
+
+    public void setComparisonId(Integer comparisonId) {
+        this.comparisonId = comparisonId;
+    }
+
+    public Integer getLocusId() {
+        return locusId;
+    }
+
+    public void setLocusId(Integer locusId) {
+        this.locusId = locusId;
+    }
+
+    public BigDecimal getPiValue() {
+        return piValue;
+    }
+
+    public void setPiValue(BigDecimal piValue) {
+        this.piValue = piValue;
+    }
+
     // Composite Key class
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class ComparisonLocusResultId implements Serializable {
-        private Integer comparisonResult;
-        private Integer locus;
+        private Integer comparisonId;
+        private Integer locusId;
+
+        public ComparisonLocusResultId() {
+        }
+
+        public ComparisonLocusResultId(Integer comparisonId, Integer locusId) {
+            this.comparisonId = comparisonId;
+            this.locusId = locusId;
+        }
+
+        public Integer getComparisonId() {
+            return comparisonId;
+        }
+
+        public void setComparisonId(Integer comparisonId) {
+            this.comparisonId = comparisonId;
+        }
+
+        public Integer getLocusId() {
+            return locusId;
+        }
+
+        public void setLocusId(Integer locusId) {
+            this.locusId = locusId;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof ComparisonLocusResultId)) return false;
+            ComparisonLocusResultId that = (ComparisonLocusResultId) o;
+            return Objects.equals(comparisonId, that.comparisonId) && Objects.equals(locusId, that.locusId);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(comparisonId, locusId);
+        }
     }
 }

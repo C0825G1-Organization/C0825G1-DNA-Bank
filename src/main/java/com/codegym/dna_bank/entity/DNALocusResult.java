@@ -1,42 +1,96 @@
-//DNALocusResult.java (bao gồm inner class DNALocusResultId)
-
 package com.codegym.dna_bank.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
 import java.io.Serializable;
+import java.util.Objects;
 
-@Entity
-@Table(name = "dna_locus_results")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@IdClass(DNALocusResult.DNALocusResultId.class)
 public class DNALocusResult {
+    private Integer sampleId;
+    private Integer locusId;
+    private String allele1;
+    private String allele2;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "sample_id", nullable = false)
-    private DNASample dnaSample;
+    public DNALocusResult() {
+    }
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "locus_id", nullable = false)
-    private Locus locus;
+    public DNALocusResult(Integer sampleId, Integer locusId, String allele1, String allele2) {
+        this.sampleId = sampleId;
+        this.locusId = locusId;
+        this.allele1 = allele1;
+        this.allele2 = allele2;
+    }
 
-    @Column(name = "allele_1", nullable = false)
-    private byte[] allele1;
+    public Integer getSampleId() {
+        return sampleId;
+    }
 
-    @Column(name = "allele_2", nullable = false)
-    private byte[] allele2;
+    public void setSampleId(Integer sampleId) {
+        this.sampleId = sampleId;
+    }
+
+    public Integer getLocusId() {
+        return locusId;
+    }
+
+    public void setLocusId(Integer locusId) {
+        this.locusId = locusId;
+    }
+
+    public String getAllele1() {
+        return allele1;
+    }
+
+    public void setAllele1(String allele1) {
+        this.allele1 = allele1;
+    }
+
+    public String getAllele2() {
+        return allele2;
+    }
+
+    public void setAllele2(String allele2) {
+        this.allele2 = allele2;
+    }
 
     // Composite Key class
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class DNALocusResultId implements Serializable {
-        private Integer dnaSample;
-        private Integer locus;
+        private Integer sampleId;
+        private Integer locusId;
+
+        public DNALocusResultId() {
+        }
+
+        public DNALocusResultId(Integer sampleId, Integer locusId) {
+            this.sampleId = sampleId;
+            this.locusId = locusId;
+        }
+
+        public Integer getSampleId() {
+            return sampleId;
+        }
+
+        public void setSampleId(Integer sampleId) {
+            this.sampleId = sampleId;
+        }
+
+        public Integer getLocusId() {
+            return locusId;
+        }
+
+        public void setLocusId(Integer locusId) {
+            this.locusId = locusId;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof DNALocusResultId)) return false;
+            DNALocusResultId that = (DNALocusResultId) o;
+            return Objects.equals(sampleId, that.sampleId) && Objects.equals(locusId, that.locusId);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(sampleId, locusId);
+        }
     }
 }

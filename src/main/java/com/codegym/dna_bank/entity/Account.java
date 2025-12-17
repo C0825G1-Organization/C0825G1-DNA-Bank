@@ -1,39 +1,68 @@
 package com.codegym.dna_bank.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "account")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Account {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "account_id")
     private Integer accountId;
-
-    @Column(name = "username", unique = true, nullable = false, length = 50)
     private String username;
-
-    @Column(name = "password", nullable = false, length = 60)
     private String password;
-
-    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
-
-    @Column(name = "last_login")
     private LocalDateTime lastLogin;
 
-    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
-    private Users user;
+    public Account() {
+    }
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
+    public Account(String username, String password) {
+        this.username = username;
+        this.password = password;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public Account(Integer accountId, String username, String password, LocalDateTime createdAt, LocalDateTime lastLogin) {
+        this.accountId = accountId;
+        this.username = username;
+        this.password = password;
+        this.createdAt = createdAt;
+        this.lastLogin = lastLogin;
+    }
+
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(LocalDateTime lastLogin) {
+        this.lastLogin = lastLogin;
     }
 }
