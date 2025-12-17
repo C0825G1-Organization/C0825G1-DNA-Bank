@@ -67,3 +67,4 @@ bin/
 hs_err_pid*
 replay_pid*
 
+BaseRepository.java
