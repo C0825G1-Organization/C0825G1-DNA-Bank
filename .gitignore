@@ -67,4 +67,4 @@ bin/
 hs_err_pid*
 replay_pid*
 
-BaseRepository.java
+src/main/java/com/codegym/dna_bank/repository/BaseRepository.java

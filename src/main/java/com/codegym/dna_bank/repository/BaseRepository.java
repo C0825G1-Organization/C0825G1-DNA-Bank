@@ -8,7 +8,7 @@ public class BaseRepository {
 
     private static String jdbcURL = "jdbc:mysql://localhost:3306/dna_system?useSSL=false&serverTimezone=UTC";
     private static String jdbcUsername = "root";
-    private static String jdbcPassword = "123456";
+    private static String jdbcPassword = "sinh6802";
     private static Connection connection = null;
     private BaseRepository() {
 
