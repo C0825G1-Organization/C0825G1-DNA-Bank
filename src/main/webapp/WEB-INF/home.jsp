@@ -282,13 +282,13 @@
                                         <i class="bi bi-search"></i>
                                     </div>
                                     <h2 class="mb-0 fw-bold fs-4">Kết quả tìm kiếm</h2>
-                                    <span class="text-muted small ms-auto">Hiện thị ${customers.size()} kết quả</span>
+                                    <span class="text-muted small ms-auto">Hiện thị ${users.size()} kết quả</span>
                                 </div>
 
                                 <!-- Results List -->
                                 <div class="row g-3">
                                     <c:choose>
-                                        <c:when test="${empty customers}">
+                                        <c:when test="${empty users}">
                                             <!-- Empty State -->
                                             <div class="col-12">
                                                 <div class="text-center py-5">
@@ -300,7 +300,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <!-- Dynamic Result Cards from Database -->
-                                            <c:forEach var="customer" items="${customers}" varStatus="status">
+                                            <c:forEach var="user" items="${users}" varStatus="status">
                                                 <div class="col-12">
                                                     <div class="card border hover-shadow"
                                                         style="transition: all 0.3s ease;">
@@ -311,7 +311,7 @@
                                                                         style="width: 50px; height: 50px; font-size: 1.2rem;">
                                                                         <c:choose>
                                                                             <c:when
-                                                                                test="${customer.gender == 'Nam' || customer.gender == 'male'}">
+                                                                                test="${user.gender == 'Nam' || user.gender == 'male'}">
                                                                                 👨
                                                                             </c:when>
                                                                             <c:otherwise>
@@ -321,18 +321,18 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col">
-                                                                    <h6 class="mb-1 fw-bold">${customer.customerName}
+                                                                    <h6 class="mb-1 fw-bold">${user.fullName}
                                                                     </h6>
                                                                     <div
                                                                         class="d-flex flex-wrap gap-3 small text-muted">
                                                                         <span><i
-                                                                                class="bi bi-geo-alt me-1"></i>${customer.address}</span>
+                                                                                class="bi bi-geo-alt me-1"></i>${user.address}</span>
                                                                         <span><i
-                                                                                class="bi bi-calendar me-1"></i>${customer.dob}</span>
+                                                                                class="bi bi-calendar me-1"></i>${user.dob}</span>
                                                                         <span>
                                                                             <c:choose>
                                                                                 <c:when
-                                                                                    test="${customer.gender == 'Nam' || customer.gender == 'male'}">
+                                                                                    test="${user.gender == 'Nam' || user.gender == 'male'}">
                                                                                     <i
                                                                                         class="bi bi-gender-male me-1"></i>Nam
                                                                                 </c:when>
@@ -347,8 +347,8 @@
                                                                 <div class="col-auto">
                                                                     <span
                                                                         class="badge bg-success-subtle text-success px-3 py-2">
-                                                                        ID: ${customer.customerId != null ?
-                                                                        customer.customerId : status.index + 1}
+                                                                        ID: ${user.userId != null ?
+                                                                        user.userId : status.index + 1}
                                                                     </span>
                                                                 </div>
                                                                 <div class="col-auto">
@@ -365,22 +365,7 @@
                                         </c:otherwise>
                                     </c:choose>
 
-                                    <!-- Pagination -->
-                                    <div class="col-12">
-                                        <nav aria-label="Search results pagination">
-                                            <ul class="pagination justify-content-center mb-0">
-                                                <li class="page-item disabled">
-                                                    <a class="page-link" href="#" tabindex="-1">Trước</a>
-                                                </li>
-                                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#">Sau</a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
