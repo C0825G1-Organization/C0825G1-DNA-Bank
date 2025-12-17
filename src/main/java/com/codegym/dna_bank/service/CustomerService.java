@@ -1,6 +1,5 @@
 package com.codegym.dna_bank.service;
 
-import com.codegym.dna_bank.entity.Customer;
 import com.codegym.dna_bank.repository.CustomerRepository;
 
 import java.sql.SQLException;

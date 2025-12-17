@@ -4,8 +4,11 @@ public class Locus {
     private Integer locusId;
     private String locusName;
 
-    public Locus(){
+    public Locus() {
+    }
 
+    public Locus(String locusName) {
+        this.locusName = locusName;
     }
 
     public Locus(Integer locusId, String locusName) {
@@ -17,7 +20,15 @@ public class Locus {
         return locusId;
     }
 
+    public void setLocusId(Integer locusId) {
+        this.locusId = locusId;
+    }
+
     public String getLocusName() {
         return locusName;
+    }
+
+    public void setLocusName(String locusName) {
+        this.locusName = locusName;
     }
 }

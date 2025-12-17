@@ -1,6 +1,5 @@
 package com.codegym.dna_bank.controller;
 
-import com.codegym.dna_bank.entity.Customer;
 import com.codegym.dna_bank.service.CustomerService;
 
 import javax.servlet.ServletException;

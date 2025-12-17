@@ -1,18 +1,29 @@
 package com.codegym.dna_bank.entity;
 
+import java.time.LocalDateTime;
+
 public class Account {
     private Integer accountId;
     private String username;
     private String password;
+    private LocalDateTime createdAt;
+    private LocalDateTime lastLogin;
 
-    public Account(){
-
+    public Account() {
     }
 
-    public Account(Integer accountId, String username, String password) {
+    public Account(String username, String password) {
+        this.username = username;
+        this.password = password;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public Account(Integer accountId, String username, String password, LocalDateTime createdAt, LocalDateTime lastLogin) {
         this.accountId = accountId;
         this.username = username;
         this.password = password;
+        this.createdAt = createdAt;
+        this.lastLogin = lastLogin;
     }
 
     public Integer getAccountId() {
@@ -37,5 +48,21 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(LocalDateTime lastLogin) {
+        this.lastLogin = lastLogin;
     }
 }

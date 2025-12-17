@@ -1,7 +1,5 @@
 package com.codegym.dna_bank.repository;
 
-import com.codegym.dna_bank.entity.Customer;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
