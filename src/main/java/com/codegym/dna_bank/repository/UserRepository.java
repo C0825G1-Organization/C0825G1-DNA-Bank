@@ -1,5 +1,7 @@
 package com.codegym.dna_bank.repository;
 
+import com.codegym.dna_bank.entity.User;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,11 +10,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerRepository {
-    public List<Customer> findAll() throws SQLException {
+public class UserRepository {
+    public List<User> findAll() throws SQLException {
         String sql = "select * from users";
 
-        List<Customer> customers = new ArrayList<>();
+        List<User> users = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = BaseRepository.getConnection().prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -22,11 +24,11 @@ public class CustomerRepository {
                 String dob = resultSet.getString("dob");
                 LocalDate temp = LocalDate.parse(dob, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 String gender = resultSet.getString("gender");
-                customers.add(new Customer(name, address, temp, gender));
+                users.add(new User(name, address, temp, gender));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return customers;
+        return users;
     }
 }

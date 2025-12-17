@@ -1,6 +1,7 @@
 package com.codegym.dna_bank.controller;
 
-import com.codegym.dna_bank.service.CustomerService;
+import com.codegym.dna_bank.entity.User;
+import com.codegym.dna_bank.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @WebServlet(name = "dnaServlet", urlPatterns = {"", "/", "/home"})
 public class DNAServlet extends HttpServlet {
-    private final CustomerService customerService = new CustomerService();
+    private final UserService userService = new UserService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,8 +27,8 @@ public class DNAServlet extends HttpServlet {
             case "/":
             case "/home":
                 try {
-                    List<Customer> customers = customerService.findAll();
-                    req.setAttribute("customers", customers);
+                    List<User> users = userService.findAll();
+                    req.setAttribute("users", users);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

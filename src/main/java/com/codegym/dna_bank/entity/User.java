@@ -3,7 +3,7 @@ package com.codegym.dna_bank.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class Users {
+public class User {
     private Integer userId;
     private Integer accountId;
     private String fullName;
@@ -14,10 +14,10 @@ public class Users {
     private String gender;
     private LocalDateTime createdAt;
 
-    public Users() {
+    public User() {
     }
 
-    public Users(Integer accountId, String fullName, String email, String phone, String address, LocalDate dob, String gender) {
+    public User(Integer accountId, String fullName, String email, String phone, String address, LocalDate dob, String gender) {
         this.accountId = accountId;
         this.fullName = fullName;
         this.email = email;
@@ -28,7 +28,7 @@ public class Users {
         this.createdAt = LocalDateTime.now();
     }
 
-    public Users(Integer userId, Integer accountId, String fullName, String email, String phone, String address, LocalDate dob, String gender, LocalDateTime createdAt) {
+    public User(Integer userId, Integer accountId, String fullName, String email, String phone, String address, LocalDate dob, String gender, LocalDateTime createdAt) {
         this.userId = userId;
         this.accountId = accountId;
         this.fullName = fullName;
@@ -38,6 +38,13 @@ public class Users {
         this.dob = dob;
         this.gender = gender;
         this.createdAt = createdAt;
+    }
+
+    public User(String fullName, String address, LocalDate dob, String gender) {
+        this.fullName = fullName;
+        this.address = address;
+        this.dob = dob;
+        this.gender = gender;
     }
 
     public Integer getUserId() {
