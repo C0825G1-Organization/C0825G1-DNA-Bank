@@ -11,7 +11,7 @@ import java.util.List;
 
 public class DNALocusResultRepository {
 
-    public List<DNALocusResult> findBySampleId(int sampleId) {
+//    public List<DNALocusResult> findBySampleId(int sampleId) {
 
     public boolean insert(DNALocusResult result) throws SQLException {
         String sql = "INSERT INTO dna_locus_result (sample_id, locus_id, allele_1, allele_2) VALUES (?, ?, ?, ?)";
@@ -59,7 +59,7 @@ public class DNALocusResultRepository {
     }
 
     public List<DNALocusResult> findBySampleId(int sampleId) throws SQLException {
-        String sql = "SELECT * FROM dna_locus_result WHERE sample_id = ? ORDER BY locus_id";
+//        String sql = "SELECT * FROM dna_locus_result WHERE sample_id = ? ORDER BY locus_id";
         List<DNALocusResult> results = new ArrayList<>();
         String sql = "SELECT sample_id, locus_id, allele_1, allele_2 " +
                 "FROM dna_locus_results WHERE sample_id = ? ORDER BY locus_id";

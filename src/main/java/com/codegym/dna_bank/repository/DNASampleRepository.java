@@ -2,9 +2,7 @@ package com.codegym.dna_bank.repository;
 
 import com.codegym.dna_bank.entity.DNASample;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +28,8 @@ public class DNASampleRepository {
                 }
             }
             return null;
-
+        }
+    }
     /**
      * Lấy DNA sample của 1 user
      * @param userId ID của user

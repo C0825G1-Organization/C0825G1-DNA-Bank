@@ -8,4 +8,5 @@ import java.time.LocalDate;
 public interface IDNASampleService {
     Integer insert(DNASample sample) throws Exception;
     DNASample findById(int sampleId) throws SQLException;
+    DNASample findByUserId(int userId);
 }

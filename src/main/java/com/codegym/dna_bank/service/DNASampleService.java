@@ -17,4 +17,9 @@ public class DNASampleService implements IDNASampleService{
     public DNASample findById(int sampleId) throws SQLException {
         return sampleRepository.findById(sampleId);
     }
+
+    @Override
+    public DNASample findByUserId(int userId) {
+        return sampleRepository.findByUserId(userId);
+    }
 }
