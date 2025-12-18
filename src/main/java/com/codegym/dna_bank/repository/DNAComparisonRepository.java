@@ -1,10 +1,9 @@
-package com.codegym.dna_bank.service;
+package com.codegym.dna_bank.repository;
 
 import com.codegym.dna_bank.entity.ComparisonLocusResult;
 import com.codegym.dna_bank.entity.ComparisonResult;
 import com.codegym.dna_bank.entity.DNALocusResult;
-import com.codegym.dna_bank.repository.AlleleFrequencyRepository;
-import com.codegym.dna_bank.repository.DNALocusResultRepository;
+import com.codegym.dna_bank.entity.DNASample;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -12,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Service so sánh DNA và tính toán PI/CPI
+ * Repository so sánh DNA và tính toán PI/CPI
  * Thuật toán dựa trên Paternity Testing Formula
  */
-public class DNAComparisonService {
+public class DNAComparisonRepository {
 
     private final DNALocusResultRepository dnaLocusRepo = new DNALocusResultRepository();
     private final AlleleFrequencyRepository alleleFreqRepo = new AlleleFrequencyRepository();
@@ -190,25 +189,23 @@ public class DNAComparisonService {
         List<ComparisonResult> relatives = new ArrayList<>();
 
         // Import repositories
-        com.codegym.dna_bank.repository.DNASampleRepository sampleRepo =
-                new com.codegym.dna_bank.repository.DNASampleRepository();
-        com.codegym.dna_bank.repository.ComparisonResultRepository comparisonRepo =
-                new com.codegym.dna_bank.repository.ComparisonResultRepository();
+        DNASampleRepository sampleRepo = new DNASampleRepository();
+        ComparisonResultRepository comparisonRepo = new ComparisonResultRepository();
 
         // Lấy DNA sample của user hiện tại
-        com.codegym.dna_bank.entity.DNASample mySample = sampleRepo.findByUserId(userId);
+        DNASample mySample = sampleRepo.findByUserId(userId);
         if (mySample == null) {
             System.out.println("User " + userId + " chưa có DNA sample");
             return relatives;
         }
 
         // Lấy tất cả DNA samples khác
-        List<com.codegym.dna_bank.entity.DNASample> otherSamples = sampleRepo.findAllExcept(userId);
+        List<DNASample> otherSamples = sampleRepo.findAllExcept(userId);
 
         System.out.println("Bắt đầu so sánh DNA của user " + userId + " với " + otherSamples.size() + " mẫu khác...");
 
         // Loop qua từng mẫu và so sánh
-        for (com.codegym.dna_bank.entity.DNASample otherSample : otherSamples) {
+        for (DNASample otherSample : otherSamples) {
             try {
                 // Kiểm tra đã so sánh chưa
                 if (comparisonRepo.isCompared(mySample.getSampleId(), otherSample.getSampleId())) {

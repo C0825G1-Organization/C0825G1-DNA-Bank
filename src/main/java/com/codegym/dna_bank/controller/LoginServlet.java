@@ -5,7 +5,7 @@ import com.codegym.dna_bank.entity.ComparisonResult;
 import com.codegym.dna_bank.entity.User;
 import com.codegym.dna_bank.repository.AccountRepository;
 import com.codegym.dna_bank.repository.UserRepository;
-import com.codegym.dna_bank.service.DNAComparisonService;
+import com.codegym.dna_bank.repository.DNAComparisonRepository;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +25,7 @@ public class LoginServlet extends HttpServlet {
 
     private final AccountRepository accountRepo = new AccountRepository();
     private final UserRepository userRepo = new UserRepository();
-    private final DNAComparisonService dnaService = new DNAComparisonService();
+    private final DNAComparisonRepository dnaComparisonRepo = new DNAComparisonRepository();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -75,7 +75,7 @@ public class LoginServlet extends HttpServlet {
 
             try {
                 // Tự động so sánh DNA với tất cả user khác
-                List<ComparisonResult> relatives = dnaService.findRelatives(user.getUserId());
+                List<ComparisonResult> relatives = dnaComparisonRepo.findRelatives(user.getUserId());
 
                 // Lưu kết quả vào session để hiển thị
                 session.setAttribute("relatives", relatives);
