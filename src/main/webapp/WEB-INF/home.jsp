@@ -138,7 +138,7 @@
                                 <a class="nav-link" href="#">Kết quả</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Upload mẫu ADN</a>
+                                <a class="nav-link" href="home?action=upload">Upload mẫu ADN</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Hỗ trợ</a>
@@ -182,6 +182,15 @@
 
             <!-- Main Content -->
             <div class="container py-5">
+                <!-- Success Message -->
+                <c:if test="${not empty sessionScope.successMessage}">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle-fill me-2"></i>${sessionScope.successMessage}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    <c:remove var="successMessage" scope="session" />
+                </c:if>
+
                 <!-- Hero Section -->
                 <div class="text-center mb-5">
                     <h1 class="hero-title mb-3">Tìm Kiếm Người Thân</h1>
@@ -211,20 +220,23 @@
                                     <div class="detail-icon">
                                         <i class="bi bi-calendar-event"></i>
                                     </div>
-                                    <div>
-                                        <div class="text-muted small">Ngày đăng ký</div>
-                                        <div class="fw-semibold">15/11/2024</div>
+                                    <div class="flex-grow-1">
+                                        <div class="info-label">Ngày đăng ký</div>
+                                        <div class="info-value">${user.createdAt != null ? user.createdAt : 'Chưa
+                                            cập nhật'}</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="detail-icon">
-                                        <i class="bi bi-file-earmark-text"></i>
-                                    </div>
-                                    <div>
-                                        <div class="text-muted small">Trạng thái phân tích</div>
-                                        <div class="fw-semibold">Hoàn thành</div>
+                                <div class="info-card">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="detail-icon">
+                                            <i class="bi bi-shield-check"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div class="info-label">Trạng thái phân tích</div>
+                                            <div class="info-value text-success">Hoàn thành</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

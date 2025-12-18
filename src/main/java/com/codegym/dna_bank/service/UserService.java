@@ -26,7 +26,7 @@ public class UserService implements IUserService {
 
     @Override
     public boolean save(User user) throws SQLException {
-        return false;
+        return userRepository.insert(user);
     }
 
     @Override

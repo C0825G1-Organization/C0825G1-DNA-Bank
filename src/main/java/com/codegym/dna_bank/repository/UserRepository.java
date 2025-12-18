@@ -65,4 +65,25 @@ public class UserRepository {
         
         return user;
     }
+
+    public boolean insert(User user) throws SQLException {
+        String sql = "INSERT INTO users (account_id, full_name, email, phone, address, dob, gender, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
+        
+        try {
+            PreparedStatement preparedStatement = BaseRepository.getConnection().prepareStatement(sql);
+            preparedStatement.setObject(1, user.getAccountId());
+            preparedStatement.setString(2, user.getFullName());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(4, user.getPhone());
+            preparedStatement.setString(5, user.getAddress());
+            preparedStatement.setObject(6, user.getDob());
+            preparedStatement.setString(7, user.getGender());
+            
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }
