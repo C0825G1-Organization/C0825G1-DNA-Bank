@@ -4,9 +4,10 @@
   Date: 12/18/2025
   Time: 8:46 AM
   To change this template use File | Settings | File Templates.
+  --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
---%>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -89,18 +90,6 @@
                         </button>
                     </form>
 
-                    <!-- Demo Accounts -->
-                    <div class="mt-4 p-3 bg-light rounded">
-                        <p class="small text-muted mb-2 fw-semibold">
-                            <i class="bi bi-info-circle me-1"></i>Tài khoản demo:
-                        </p>
-                        <div class="small">
-                            <div class="mb-1">👨 <code>user_a</code> / <code>password</code> - Nguyễn Văn A</div>
-                            <div class="mb-1">👨 <code>user_b</code> / <code>password</code> - Nguyễn Văn B</div>
-                            <div class="mb-1">👨 <code>user_c</code> / <code>password</code> - Trần Văn C</div>
-                            <div>👩 <code>user_d</code> / <code>password</code> - Lê Thị D</div>
-                        </div>
-                    </div>
                 </div>
             </div>
 

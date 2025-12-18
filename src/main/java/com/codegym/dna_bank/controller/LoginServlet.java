@@ -96,7 +96,7 @@ public class LoginServlet extends HttpServlet {
             }
         }
 
-        // Redirect về trang dashboard
-        resp.sendRedirect(req.getContextPath() + "/dashboard");
+        // Redirect về trang chủ
+        resp.sendRedirect(req.getContextPath() + "/home");
     }
 }

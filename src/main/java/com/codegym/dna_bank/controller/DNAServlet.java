@@ -18,6 +18,7 @@ public class DNAServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         String action = req.getParameter("action");
         if (action == null) {
             action = "";
@@ -35,6 +36,36 @@ public class DNAServlet extends HttpServlet {
                 req.getRequestDispatcher("WEB-INF/home.jsp").forward(req, resp);
                 break;
 
+            case "upload":
+                req.getRequestDispatcher("WEB-INF/upload.jsp").forward(req, resp);
+                break;
+
+            case "detail":
+                String userIdParam = req.getParameter("userId");
+                if (userIdParam != null && !userIdParam.isEmpty()) {
+                    try {
+                        int userId = Integer.parseInt(userIdParam);
+                        User user = userService.findById(userId);
+
+                        if (user != null) {
+                            req.setAttribute("user", user);
+                            req.getRequestDispatcher("WEB-INF/detailUser.jsp").forward(req, resp);
+                        } else {
+                            resp.sendRedirect("home");
+                        }
+                    } catch (NumberFormatException e) {
+                        resp.sendRedirect("home");
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                else {
+                    resp.sendRedirect("home");
+                }
+                break;
+
+            case "profile":
+                break;
             default:
                 req.getRequestDispatcher("WEB-INF/home.jsp").forward(req, resp);
                 break;
@@ -43,6 +74,15 @@ public class DNAServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
+        req.setCharacterEncoding("UTF-8");
+        String action = req.getParameter("action");
+        if (action == null) {
+            action = "";
+        }
+//
+//        switch (action) {
+//            case 'upload':
+//
+//        }
     }
 }

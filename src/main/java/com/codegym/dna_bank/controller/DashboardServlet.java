@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +40,19 @@ public class DashboardServlet extends HttpServlet {
 
         // Lấy thông tin user hiện tại
         User currentUser = (User) session.getAttribute("user");
+        
+        // Nếu không có user trong session, lấy lại từ database
+        if (currentUser == null) {
+            try {
+                currentUser = userRepo.findById(userId);
+                if (currentUser != null) {
+                    session.setAttribute("user", currentUser);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
         req.setAttribute("currentUser", currentUser);
 
         // Lấy kết quả matching từ session
@@ -51,22 +65,32 @@ public class DashboardServlet extends HttpServlet {
 
         // Lấy thông tin chi tiết của người thân
         Map<Integer, User> relativeUsers = new HashMap<>();
-        for (ComparisonResult result : relatives) {
-            // Xác định userId của người thân (không phải currentUser)
-            int relativeUserId = (result.getSample1Id() == currentUser.getUserId())
-                    ? result.getSample2Id()
-                    : result.getSample1Id();
+        
+        // Chỉ xử lý nếu có currentUser
+        if (currentUser != null) {
+            for (ComparisonResult result : relatives) {
+                try {
+                    // Lấy sample để lấy userId
+                    com.codegym.dna_bank.entity.DNASample sample1 = sampleRepo.findById(result.getSample1Id());
+                    com.codegym.dna_bank.entity.DNASample sample2 = sampleRepo.findById(result.getSample2Id());
 
-            // Lấy sample để lấy userId
-            com.codegym.dna_bank.entity.DNASample sample1 = sampleRepo.findById(result.getSample1Id());
-            com.codegym.dna_bank.entity.DNASample sample2 = sampleRepo.findById(result.getSample2Id());
+                    // Kiểm tra null trước khi truy cập
+                    if (sample1 == null || sample2 == null) {
+                        System.out.println("Warning: DNA sample not found for comparison " + result.getComparisonId());
+                        continue;
+                    }
 
-            int otherUserId = (sample1.getUserId() == userId) ? sample2.getUserId() : sample1.getUserId();
+                    int otherUserId = (sample1.getUserId() == userId) ? sample2.getUserId() : sample1.getUserId();
 
-            // Lấy thông tin user
-            User relativeUser = userRepo.findById(otherUserId);
-            if (relativeUser != null) {
-                relativeUsers.put(result.getComparisonId(), relativeUser);
+                    // Lấy thông tin user
+                    User relativeUser = userRepo.findById(otherUserId);
+                    if (relativeUser != null) {
+                        relativeUsers.put(result.getComparisonId(), relativeUser);
+                    }
+                } catch (SQLException e) {
+                    System.out.println("Error loading relative user: " + e.getMessage());
+                    e.printStackTrace();
+                }
             }
         }
 
