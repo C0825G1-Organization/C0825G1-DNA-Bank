@@ -65,24 +65,83 @@
                     </style>
                 </head>
 
-                <body>
-                    <!-- Navigation -->
-                    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-                        <div class="container-fluid px-4">
-                            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-primary"
-                                href="${pageContext.request.contextPath}/dashboard">
-                                <span class="logo-icon">🧬</span>
-                                DNA Bank
-                            </a>
+                <body>            <!-- Navigation -->
+                <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+                    <div class="container-fluid px-4">
+                        <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-primary" href="home">
+                            <span class="logo-icon">🧬</span>
+                            DNA Bank
+                        </a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav mx-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="home">Trang chủ</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="home?action=dashboard">Kết quả</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="home?action=upload">Upload mẫu ADN</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Hỗ trợ</a>
+                                </li>
+                            </ul>
                             <div class="d-flex align-items-center gap-3">
-                                <span class="text-muted">Xin chào, <strong>${currentUser.fullName}</strong></span>
-                                <a href="${pageContext.request.contextPath}/login"
-                                    class="btn btn-outline-danger btn-sm">
-                                    <i class="bi bi-box-arrow-right me-1"></i>Đăng xuất
-                                </a>
+                                <div class="dropdown">
+                                    <img src="https://ui-avatars.com/api/?name=User&background=667eea&color=fff" alt="User"
+                                         class="rounded-circle dropdown-toggle" width="40" height="40"
+                                         style="border: 2px solid #667eea; cursor: pointer;" id="userDropdown"
+                                         data-bs-toggle="dropdown" aria-expanded="false">
+                                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 mt-2"
+                                        aria-labelledby="userDropdown" style="min-width: 250px;">
+                                        <li class="px-3 py-2 border-bottom">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <img src="https://ui-avatars.com/api/?name=User&background=667eea&color=fff"
+                                                     alt="User" class="rounded-circle" width="40" height="40">
+                                                <div>
+                                                    <div class="fw-bold">Người dùng</div>
+                                                    <div class="small text-muted">user@example.com</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li><a class="dropdown-item py-2" href="#"><i class="bi bi-person me-2"></i>Hồ sơ cá
+                                            nhân</a></li>
+                                        <li><a class="dropdown-item py-2" href="#"><i class="bi bi-gear me-2"></i>Cài
+                                            đặt</a></li>
+                                        <li><a class="dropdown-item py-2" href="#"><i
+                                                class="bi bi-question-circle me-2"></i>Trợ giúp</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item py-2 text-danger" href="#"><i
+                                                class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </nav>
+                    </div>
+                </nav>
+<%--                    <!-- Navigation -->--%>
+<%--                    <nav class="navbar navbar-expand-lg navbar-light sticky-top">--%>
+<%--                        <div class="container-fluid px-4">--%>
+<%--                            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-primary"--%>
+<%--                                href="${pageContext.request.contextPath}/dashboard">--%>
+<%--                                <span class="logo-icon">🧬</span>--%>
+<%--                                DNA Bank--%>
+<%--                            </a>--%>
+<%--                            <div class="d-flex align-items-center gap-3">--%>
+<%--                                <span class="text-muted">Xin chào, <strong>${currentUser.fullName}</strong></span>--%>
+<%--                                <a href="${pageContext.request.contextPath}/login"--%>
+<%--                                    class="btn btn-outline-danger btn-sm">--%>
+<%--                                    <i class="bi bi-box-arrow-right me-1"></i>Đăng xuất--%>
+<%--                                </a>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </nav>--%>
 
                     <div class="container py-5">
                         <!-- User Info Card -->
