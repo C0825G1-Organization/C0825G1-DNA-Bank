@@ -169,7 +169,64 @@ public class DNAServlet extends HttpServlet {
                 break;
 
             case "profile":
+                // Get logged-in user's userId from session
+                Integer profileUserId = (Integer) req.getSession().getAttribute("userId");
+                if (profileUserId == null) {
+                    resp.sendRedirect(req.getContextPath() + "/login");
+                    return;
+                }
+                
+                try {
+                    // Fetch user information
+                    User profileUser = userService.findById(profileUserId);
+                    req.setAttribute("user", profileUser);
+                    
+                    // Fetch DNA sample for this user
+                    DNASample userDnaSample = sampleService.findByUserId(profileUserId);
+                    req.setAttribute("dnaSample", userDnaSample);
+                    
+                    // If user has DNA sample, fetch locus results
+                    if (userDnaSample != null) {
+                        List<DNALocusResult> locusResults = locusResultService.findBySampleId(userDnaSample.getSampleId());
+                        req.setAttribute("locusResults", locusResults);
+                        
+                        // Create a map of locus names (based on the 16 STR loci)
+                        Map<Integer, String> locusNames = new HashMap<>();
+                        locusNames.put(1, "D8S1179");
+                        locusNames.put(2, "D21S11");
+                        locusNames.put(3, "D7S820");
+                        locusNames.put(4, "CSF1PO");
+                        locusNames.put(5, "D3S1358");
+                        locusNames.put(6, "TH01");
+                        locusNames.put(7, "D13S317");
+                        locusNames.put(8, "D16S539");
+                        locusNames.put(9, "D2S1338");
+                        locusNames.put(10, "D19S433");
+                        locusNames.put(11, "vWA");
+                        locusNames.put(12, "TPOX");
+                        locusNames.put(13, "D18S51");
+                        locusNames.put(14, "AMEL");
+                        locusNames.put(15, "D5S818");
+                        locusNames.put(16, "FGA");
+                        req.setAttribute("locusNames", locusNames);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    req.setAttribute("errorMessage", "Có lỗi xảy ra khi tải thông tin hồ sơ: " + e.getMessage());
+                }
+                
+                req.getRequestDispatcher("WEB-INF/profile.jsp").forward(req, resp);
                 break;
+            
+            case "logout":
+                // Invalidate session and redirect to login
+                HttpSession logoutSession = req.getSession(false);
+                if (logoutSession != null) {
+                    logoutSession.invalidate();
+                }
+                resp.sendRedirect(req.getContextPath() + "/login");
+                break;
+                
             default:
                 req.getRequestDispatcher("WEB-INF/home.jsp").forward(req, resp);
                 break;

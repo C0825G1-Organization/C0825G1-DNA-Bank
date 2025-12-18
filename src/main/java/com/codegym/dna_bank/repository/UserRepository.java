@@ -145,4 +145,25 @@ public class UserRepository {
             throw e;
         }
     }
+
+    public boolean update(User user) throws SQLException {
+        String sql = "UPDATE users SET full_name = ?, email = ?, phone = ?, address = ?, dob = ?, gender = ? WHERE user_id = ?";
+
+        try {
+            PreparedStatement preparedStatement = BaseRepository.getConnection().prepareStatement(sql);
+            preparedStatement.setString(1, user.getFullName());
+            preparedStatement.setString(2, user.getEmail());
+            preparedStatement.setString(3, user.getPhone());
+            preparedStatement.setString(4, user.getAddress());
+            preparedStatement.setObject(5, user.getDob());
+            preparedStatement.setString(6, user.getGender());
+            preparedStatement.setInt(7, user.getUserId());
+            
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }
