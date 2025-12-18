@@ -16,11 +16,11 @@ public class UserService implements IUserService {
 
     @Override
     public User findById(int id) throws SQLException {
-        return null;
+        return userRepository.findById(id);
     }
 
     @Override
-    public User findByNamer(String name) throws SQLException {
+    public User findByName(String name) throws SQLException {
         return null;
     }
 
