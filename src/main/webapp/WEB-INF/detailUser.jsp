@@ -418,12 +418,12 @@
                             <a href="home" class="btn btn-gradient">
                                 <i class="bi bi-arrow-left me-2"></i>Quay lại
                             </a>
-                            <button class="btn btn-outline-primary px-4 py-2 rounded-3">
-                                <i class="bi bi-pencil me-2"></i>Chỉnh sửa thông tin
-                            </button>
-                            <button class="btn btn-outline-success px-4 py-2 rounded-3">
-                                <i class="bi bi-download me-2"></i>Tải báo cáo ADN
-                            </button>
+<%--                            <button class="btn btn-outline-primary px-4 py-2 rounded-3">--%>
+<%--                                <i class="bi bi-pencil me-2"></i>Chỉnh sửa thông tin--%>
+<%--                            </button>--%>
+<%--                            <button class="btn btn-outline-success px-4 py-2 rounded-3">--%>
+<%--                                <i class="bi bi-download me-2"></i>Tải báo cáo ADN--%>
+<%--                            </button>--%>
                         </div>
                     </div>
                 </div>
