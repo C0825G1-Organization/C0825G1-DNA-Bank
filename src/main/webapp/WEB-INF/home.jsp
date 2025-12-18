@@ -132,10 +132,10 @@
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav mx-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Trang chủ</a>
+                                <a class="nav-link" href="home">Trang chủ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Kết quả</a>
+                                <a class="nav-link" href="home?action=dashboard">Kết quả</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="home?action=upload">Upload mẫu ADN</a>
@@ -157,8 +157,10 @@
                                             <img src="https://ui-avatars.com/api/?name=User&background=667eea&color=fff"
                                                 alt="User" class="rounded-circle" width="40" height="40">
                                             <div>
-                                                <div class="fw-bold">Người dùng</div>
-                                                <div class="small text-muted">user@example.com</div>
+                                                <div class="fw-bold">${not empty sessionScope.fullName ?
+                                                    sessionScope.fullName : 'Người dùng'}</div>
+                                                <div class="small text-muted">${not empty sessionScope.username ?
+                                                    sessionScope.username : 'Chưa đăng nhập'}</div>
                                             </div>
                                         </div>
                                     </li>
@@ -207,7 +209,8 @@
                             <div class="card-gradient-icon">🧬</div>
                             <div class="flex-grow-1">
                                 <div class="text-primary fw-semibold small">Mẫu ADN của bạn</div>
-                                <div class="fw-bold fs-5">ID: DNA-2024-VN-847291</div>
+                                <div class="fw-bold fs-5">ID: ${not empty dnaSample ? dnaSample.sampleId : 'Chưa có mẫu
+                                    ADN'}</div>
                             </div>
                             <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill">
                                 Đã xác minh

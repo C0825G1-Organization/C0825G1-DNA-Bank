@@ -99,6 +99,19 @@ public class User {
         return dob;
     }
 
+    /**
+     * Get formatted date of birth for display (dd/MM/yyyy)
+     */
+    public String getFormattedDob() {
+        if (dob == null) {
+            return "";
+        }
+        return String.format("%02d/%02d/%d", 
+            dob.getDayOfMonth(), 
+            dob.getMonthValue(), 
+            dob.getYear());
+    }
+
     public void setDob(LocalDate dob) {
         this.dob = dob;
     }
