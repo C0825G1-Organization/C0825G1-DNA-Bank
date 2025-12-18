@@ -370,60 +370,60 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <div class="info-card">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="icon-box">
-                                            <i class="bi bi-shield-check"></i>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <div class="info-label">Trạng thái phân tích</div>
-                                            <div class="info-value text-success">Hoàn thành</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+<%--                            <div class="col-md-6">--%>
+<%--                                <div class="info-card">--%>
+<%--                                    <div class="d-flex align-items-center gap-3">--%>
+<%--                                        <div class="icon-box">--%>
+<%--                                            <i class="bi bi-shield-check"></i>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="flex-grow-1">--%>
+<%--                                            <div class="info-label">Trạng thái phân tích</div>--%>
+<%--                                            <div class="info-value text-success">Hoàn thành</div>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
 
-                            <div class="col-md-6">
-                                <div class="info-card">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="icon-box">
-                                            <i class="bi bi-people"></i>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <div class="info-label">Số lượng khớp</div>
-                                            <div class="info-value">12 người thân</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+<%--                            <div class="col-md-6">--%>
+<%--                                <div class="info-card">--%>
+<%--                                    <div class="d-flex align-items-center gap-3">--%>
+<%--                                        <div class="icon-box">--%>
+<%--                                            <i class="bi bi-people"></i>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="flex-grow-1">--%>
+<%--                                            <div class="info-label">Số lượng khớp</div>--%>
+<%--                                            <div class="info-value">12 người thân</div>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
 
-                            <div class="col-md-6">
-                                <div class="info-card">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="icon-box">
-                                            <i class="bi bi-graph-up"></i>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <div class="info-label">Độ chính xác</div>
-                                            <div class="info-value">99.8%</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<%--                            <div class="col-md-6">--%>
+<%--                                <div class="info-card">--%>
+<%--                                    <div class="d-flex align-items-center gap-3">--%>
+<%--                                        <div class="icon-box">--%>
+<%--                                            <i class="bi bi-graph-up"></i>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="flex-grow-1">--%>
+<%--                                            <div class="info-label">Độ chính xác</div>--%>
+<%--                                            <div class="info-value">99.8%</div>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
 
                         <!-- Action Buttons -->
                         <div class="d-flex flex-wrap gap-3 justify-content-center mt-5">
                             <a href="home" class="btn btn-gradient">
                                 <i class="bi bi-arrow-left me-2"></i>Quay lại
                             </a>
-                            <button class="btn btn-outline-primary px-4 py-2 rounded-3">
-                                <i class="bi bi-pencil me-2"></i>Chỉnh sửa thông tin
-                            </button>
-                            <button class="btn btn-outline-success px-4 py-2 rounded-3">
-                                <i class="bi bi-download me-2"></i>Tải báo cáo ADN
-                            </button>
+<%--                            <button class="btn btn-outline-primary px-4 py-2 rounded-3">--%>
+<%--                                <i class="bi bi-pencil me-2"></i>Chỉnh sửa thông tin--%>
+<%--                            </button>--%>
+<%--                            <button class="btn btn-outline-success px-4 py-2 rounded-3">--%>
+<%--                                <i class="bi bi-download me-2"></i>Tải báo cáo ADN--%>
+<%--                            </button>--%>
                         </div>
                     </div>
                 </div>
