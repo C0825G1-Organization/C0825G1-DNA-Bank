@@ -28,8 +28,15 @@ public class UserRepository {
                 String dobString = resultSet.getString("dob");
                 LocalDate dob = LocalDate.parse(dobString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 String gender = resultSet.getString("gender");
+                
+                // Get created_at timestamp
+                java.sql.Timestamp createdAtTimestamp = resultSet.getTimestamp("created_at");
+                java.time.LocalDateTime createdAt = null;
+                if (createdAtTimestamp != null) {
+                    createdAt = createdAtTimestamp.toLocalDateTime();
+                }
 
-                users.add(new User(userId, accountId, fullName, email, phone, address, dob, gender, null));
+                users.add(new User(userId, accountId, fullName, email, phone, address, dob, gender, createdAt));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,8 +63,15 @@ public class UserRepository {
                 String dobString = resultSet.getString("dob");
                 LocalDate dob = LocalDate.parse(dobString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 String gender = resultSet.getString("gender");
+                
+                // Get created_at timestamp
+                java.sql.Timestamp createdAtTimestamp = resultSet.getTimestamp("created_at");
+                java.time.LocalDateTime createdAt = null;
+                if (createdAtTimestamp != null) {
+                    createdAt = createdAtTimestamp.toLocalDateTime();
+                }
 
-                user = new User(userId, accountId, fullName, email, phone, address, dob, gender, null);
+                user = new User(userId, accountId, fullName, email, phone, address, dob, gender, createdAt);
             }
         } catch (SQLException e) {
             e.printStackTrace();

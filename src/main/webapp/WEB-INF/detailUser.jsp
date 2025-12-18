@@ -150,10 +150,10 @@
                                 <a class="nav-link" href="home">Trang chủ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Kết quả</a>
+                                <a class="nav-link" href="home?action=dashboard">Kết quả</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Upload mẫu ADN</a>
+                                <a class="nav-link" href="home?action=upload">Upload mẫu ADN</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Hỗ trợ</a>
