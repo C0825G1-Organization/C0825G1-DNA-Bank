@@ -145,15 +145,36 @@
                             </li>
                         </ul>
                         <div class="d-flex align-items-center gap-3">
-                            <div class="position-relative">
-                                <i class="bi bi-bell fs-5 text-secondary"></i>
-                                <span
-                                    class="position-absolute bottom-20 start-80 translate-middle badge rounded-pill bg-danger notification-badge">
-                                    3
-                                </span>
+                            <div class="dropdown">
+                                <img src="https://ui-avatars.com/api/?name=User&background=667eea&color=fff" alt="User"
+                                    class="rounded-circle dropdown-toggle" width="40" height="40"
+                                    style="border: 2px solid #667eea; cursor: pointer;" id="userDropdown"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 mt-2"
+                                    aria-labelledby="userDropdown" style="min-width: 250px;">
+                                    <li class="px-3 py-2 border-bottom">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <img src="https://ui-avatars.com/api/?name=User&background=667eea&color=fff"
+                                                alt="User" class="rounded-circle" width="40" height="40">
+                                            <div>
+                                                <div class="fw-bold">Người dùng</div>
+                                                <div class="small text-muted">user@example.com</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li><a class="dropdown-item py-2" href="#"><i class="bi bi-person me-2"></i>Hồ sơ cá
+                                            nhân</a></li>
+                                    <li><a class="dropdown-item py-2" href="#"><i class="bi bi-gear me-2"></i>Cài
+                                            đặt</a></li>
+                                    <li><a class="dropdown-item py-2" href="#"><i
+                                                class="bi bi-question-circle me-2"></i>Trợ giúp</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item py-2 text-danger" href="#"><i
+                                                class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
+                                </ul>
                             </div>
-                            <img src="https://ui-avatars.com/api/?name=User&background=667eea&color=fff" alt="User"
-                                class="rounded-circle" width="40" height="40" style="border: 2px solid #667eea;">
                         </div>
                     </div>
                 </div>
@@ -352,10 +373,10 @@
                                                                     </span>
                                                                 </div>
                                                                 <div class="col-auto">
-                                                                    <button
+                                                                    <a href="home?action=detail&userId=${user.userId}"
                                                                         class="btn btn-sm btn-outline-primary rounded-3">
                                                                         Xem chi tiết
-                                                                    </button>
+                                                                    </a>
                                                                 </div>
                                                             </div>
                                                         </div>
