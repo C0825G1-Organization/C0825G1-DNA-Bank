@@ -33,4 +33,9 @@ public class UserService implements IUserService {
     public boolean update(User user) throws SQLException {
         return false;
     }
+
+    @Override
+    public User findByAccountId(int accountId) {
+        return userRepository.findByAccountId(accountId);
+    }
 }

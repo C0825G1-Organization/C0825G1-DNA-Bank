@@ -3,9 +3,9 @@ package com.codegym.dna_bank.controller;
 import com.codegym.dna_bank.entity.Account;
 import com.codegym.dna_bank.entity.ComparisonResult;
 import com.codegym.dna_bank.entity.User;
-import com.codegym.dna_bank.repository.AccountRepository;
-import com.codegym.dna_bank.repository.UserRepository;
-import com.codegym.dna_bank.repository.DNAComparisonRepository;
+import com.codegym.dna_bank.service.AccountService;
+import com.codegym.dna_bank.service.DNAComparisonService;
+import com.codegym.dna_bank.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,10 +22,9 @@ import java.util.List;
  */
 @WebServlet(name = "loginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
-
-    private final AccountRepository accountRepo = new AccountRepository();
-    private final UserRepository userRepo = new UserRepository();
-    private final DNAComparisonRepository dnaComparisonRepo = new DNAComparisonRepository();
+    private final AccountService accountService = new AccountService();
+    private final UserService userService = new UserService();
+    private final DNAComparisonService dnaComparisonService = new DNAComparisonService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -47,7 +46,7 @@ public class LoginServlet extends HttpServlet {
         }
 
         // Kiểm tra đăng nhập
-        Account account = accountRepo.login(username, password);
+        Account account = accountService.login(username, password);
 
         if (account == null) {
             req.setAttribute("error", "Sai username hoặc password");
@@ -63,7 +62,7 @@ public class LoginServlet extends HttpServlet {
         session.setAttribute("username", account.getUsername());
 
         // Lấy thông tin user
-        User user = userRepo.findByAccountId(account.getAccountId());
+        User user = userService.findByAccountId(account.getAccountId());
         if (user != null) {
             session.setAttribute("user", user);
             session.setAttribute("userId", user.getUserId());
@@ -75,7 +74,7 @@ public class LoginServlet extends HttpServlet {
 
             try {
                 // Tự động so sánh DNA với tất cả user khác
-                List<ComparisonResult> relatives = dnaComparisonRepo.findRelatives(user.getUserId());
+                List<ComparisonResult> relatives = dnaComparisonService.findRelatives(user.getUserId());
 
                 // Lưu kết quả vào session để hiển thị
                 session.setAttribute("relatives", relatives);
