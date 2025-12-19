@@ -38,4 +38,8 @@ public class UserService implements IUserService {
     public User findByAccountId(int accountId) {
         return userRepository.findByAccountId(accountId);
     }
+
+    public List<User> findAllWithFilters(Integer excludeUserId, String address, String gender) throws SQLException {
+        return userRepository.findAllWithFilters(excludeUserId, address, gender);
+    }
 }

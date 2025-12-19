@@ -174,4 +174,46 @@ public class UserRepository {
             throw e;
         }
     }
+
+    public List<User> findAllWithFilters(Integer excludeUserId, String address, String gender) throws SQLException {
+        StringBuilder sql = new StringBuilder("SELECT * FROM users WHERE 1=1");
+        List<Object> parameters = new ArrayList<>();
+        
+        // Exclude specific user
+        if (excludeUserId != null) {
+            sql.append(" AND user_id != ?");
+            parameters.add(excludeUserId);
+        }
+        
+        // Filter by address (partial match)
+        if (address != null && !address.trim().isEmpty() && !"all".equalsIgnoreCase(address)) {
+            sql.append(" AND address LIKE ?");
+            parameters.add("%" + address + "%");
+        }
+        
+        // Filter by gender
+        if (gender != null && !gender.trim().isEmpty() && !"all".equalsIgnoreCase(gender)) {
+            sql.append(" AND gender = ?");
+            parameters.add(gender);
+        }
+        
+        List<User> users = new ArrayList<>();
+        try (PreparedStatement preparedStatement = BaseRepository.getConnection().prepareStatement(sql.toString())) {
+            // Set parameters
+            for (int i = 0; i < parameters.size(); i++) {
+                preparedStatement.setObject(i + 1, parameters.get(i));
+            }
+            
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    users.add(mapResultSetToUser(resultSet));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        
+        return users;
+    }
 }

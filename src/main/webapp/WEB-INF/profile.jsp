@@ -364,14 +364,14 @@
                                     <div class="d-flex gap-4">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="gender" id="genderMale"
-                                                value="Nam" ${user.gender=='Nam' ? 'checked' : '' } required>
+                                                value="M" ${user.gender=='M' ? 'checked' : '' } required>
                                             <label class="form-check-label" for="genderMale">
                                                 <i class="bi bi-gender-male text-primary"></i> Nam
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="gender" id="genderFemale"
-                                                value="Nữ" ${user.gender=='Nữ' ? 'checked' : '' } required>
+                                                value="F" ${user.gender=='F' ? 'checked' : '' } required>
                                             <label class="form-check-label" for="genderFemale">
                                                 <i class="bi bi-gender-female text-danger"></i> Nữ
                                             </label>

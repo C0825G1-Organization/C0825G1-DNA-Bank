@@ -69,13 +69,24 @@ public class DNAServlet extends HttpServlet {
             case "/":
             case "/home":
                 try {
-                    List<User> users = userService.findAll();
+                    // Get filter parameters from request
+                    String addressFilter = req.getParameter("address");
+                    String genderFilter = req.getParameter("gender");
+                    
+                    // Get current user ID to exclude from search results
+                    Integer currentUserId = (Integer) req.getSession().getAttribute("userId");
+                    
+                    // Find users with filters, excluding current user
+                    List<User> users = userService.findAllWithFilters(currentUserId, addressFilter, genderFilter);
                     req.setAttribute("users", users);
                     
+                    // Preserve filter values for the form
+                    req.setAttribute("selectedAddress", addressFilter);
+                    req.setAttribute("selectedGender", genderFilter);
+                    
                     // Get DNA sample for logged-in user
-                    Integer userId = (Integer) req.getSession().getAttribute("userId");
-                    if (userId != null) {
-                        DNASample dnaSample = sampleService.findByUserId(userId);
+                    if (currentUserId != null) {
+                        DNASample dnaSample = sampleService.findByUserId(currentUserId);
                         if (dnaSample != null) {
                             req.setAttribute("dnaSample", dnaSample);
                         }
