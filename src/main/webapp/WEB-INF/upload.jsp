@@ -176,11 +176,12 @@
                       </div>
                     </div>
                   </li>
-                  <li><a class="dropdown-item py-2" href="#"><i class="bi bi-person me-2"></i>Hồ sơ cá
-                      nhân</a></li>
-                  <li><a class="dropdown-item py-2" href="#"><i class="bi bi-gear me-2"></i>Cài
-                      đặt</a></li>
-                  <li><a class="dropdown-item py-2" href="#"><i class="bi bi-question-circle me-2"></i>Trợ giúp</a></li>
+                    <li><a class="dropdown-item py-2" href="home?action=profile"><i
+                            class="bi bi-person me-2"></i>Hồ sơ cá nhân</a></li>
+                    <li>
+<%--                  <li><a class="dropdown-item py-2" href="#"><i class="bi bi-gear me-2"></i>Cài--%>
+<%--                      đặt</a></li>--%>
+<%--                  <li><a class="dropdown-item py-2" href="#"><i class="bi bi-question-circle me-2"></i>Trợ giúp</a></li>--%>
                   <li>
                     <hr class="dropdown-divider">
                   </li>
