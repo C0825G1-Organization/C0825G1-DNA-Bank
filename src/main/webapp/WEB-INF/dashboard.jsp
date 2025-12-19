@@ -62,41 +62,116 @@
                             transform: translateY(-4px);
                             box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3) !important;
                         }
+
+                        .hero-title {
+                            font-size: 2.5rem;
+                            font-weight: 700;
+                            color: white;
+                            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+                        }
+
+                        .hero-subtitle {
+                            color: rgba(255, 255, 255, 0.95);
+                            font-size: 1.1rem;
+                        }
+
+                        @media (max-width: 768px) {
+                            .hero-title {
+                                font-size: 2rem;
+                            }
+                        }
                     </style>
                 </head>
 
-                <body>
-                    <!-- Navigation -->
+                <body> <!-- Navigation -->
                     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
                         <div class="container-fluid px-4">
-                            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-primary"
-                                href="${pageContext.request.contextPath}/dashboard">
+                            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-primary" href="home">
                                 <span class="logo-icon">🧬</span>
                                 DNA Bank
                             </a>
-                            <div class="d-flex align-items-center gap-3">
-                                <span class="text-muted">Xin chào, <strong>${currentUser.fullName}</strong></span>
-                                <a href="${pageContext.request.contextPath}/login"
-                                    class="btn btn-outline-danger btn-sm">
-                                    <i class="bi bi-box-arrow-right me-1"></i>Đăng xuất
-                                </a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarNav">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarNav">
+                                <ul class="navbar-nav mx-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="home">Trang chủ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="home?action=dashboard">Kết quả</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="home?action=upload">Upload mẫu ADN</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Hỗ trợ</a>
+                                    </li>
+                                </ul>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="dropdown">
+                                        <img src="https://ui-avatars.com/api/?name=User&background=667eea&color=fff"
+                                            alt="User" class="rounded-circle dropdown-toggle" width="40" height="40"
+                                            style="border: 2px solid #667eea; cursor: pointer;" id="userDropdown"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 mt-2"
+                                            aria-labelledby="userDropdown" style="min-width: 250px;">
+                                            <li class="px-3 py-2 border-bottom">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <img src="https://ui-avatars.com/api/?name=User&background=667eea&color=fff"
+                                                        alt="User" class="rounded-circle" width="40" height="40">
+                                                    <div>
+                                                        <div class="fw-bold">${not empty sessionScope.fullName ?
+                                                            sessionScope.fullName : 'Người dùng'}</div>
+                                                        <div class="small text-muted">${not empty sessionScope.username
+                                                            ?
+                                                            sessionScope.username : 'Chưa đăng nhập'}</div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li><a class="dropdown-item py-2" href="home?action=profile"><i
+                                                        class="bi bi-person me-2"></i>Hồ sơ cá nhân</a></li>
+                                            <li>
+                                                <hr class="dropdown-divider">
+                                            </li>
+                                            <li><a class="dropdown-item py-2 text-danger" href="home?action=logout"><i
+                                                        class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </nav>
 
+
                     <div class="container py-5">
+                        <!-- Hero Section -->
+                        <div class="text-center mb-5">
+                            <h1 class="hero-title mb-3">Kết quả tìm kiếm</h1>
+                            <p class="hero-subtitle mx-auto" style="max-width: 700px;">
+                                Kết quả tìm kiếm dựa trên phân tích DNA của bạn.
+                            </p>
+                        </div>
+
                         <!-- User Info Card -->
                         <div class="card shadow-lg border-0 rounded-4 mb-4">
                             <div class="card-body p-4">
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="card-gradient-icon">
                                         <c:choose>
-                                            <c:when test="${currentUser.gender == 'M'}">👨</c:when>
-                                            <c:otherwise>👩</c:otherwise>
+                                            <c:when test="${currentUser.gender == 'M'}">
+                                                👨
+                                            </c:when>
+                                            <c:otherwise>
+                                                👩
+                                            </c:otherwise>
                                         </c:choose>
                                     </div>
                                     <div class="flex-grow-1">
-                                        <h4 class="mb-1 fw-bold">${currentUser.fullName}</h4>
+                                        <h4 class="mb-1 fw-bold">
+                                            ${currentUser.fullName}
+                                        </h4>
                                         <div class="d-flex flex-wrap gap-3 small text-muted">
                                             <span><i class="bi bi-geo-alt me-1"></i>${currentUser.address}</span>
                                             <span><i class="bi bi-calendar me-1"></i>
@@ -106,7 +181,8 @@
                                         </div>
                                     </div>
                                     <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fs-6">
-                                        ID: ${currentUser.userId}
+                                        ID:
+                                        ${currentUser.userId}
                                     </span>
                                 </div>
                             </div>
@@ -121,9 +197,22 @@
                                         <i class="bi bi-people-fill"></i>
                                     </div>
                                     <div>
-                                        <h3 class="mb-0 fw-bold">Kết quả tìm kiếm người thân</h3>
-                                        <p class="text-muted mb-0">Hệ thống đã tự động so sánh DNA của bạn với tất cả
-                                            người dùng</p>
+                                        <h3 class="mb-0 fw-bold">
+                                            Kết quả
+                                            tìm kiếm
+                                            người
+                                            thân
+                                        </h3>
+                                        <p class="text-muted mb-0">
+                                            Hệ thống
+                                            đã tự
+                                            động so
+                                            sánh DNA
+                                            của bạn
+                                            với tất
+                                            cả
+                                            người
+                                            dùng</p>
                                     </div>
                                 </div>
 
@@ -131,10 +220,35 @@
                                     <c:when test="${matchCount == 0}">
                                         <!-- No Results -->
                                         <div class="text-center py-5">
-                                            <div class="display-1 opacity-25 mb-3">😔</div>
-                                            <h5 class="text-muted">Chưa tìm thấy người thân</h5>
-                                            <p class="text-muted">Hệ thống không tìm thấy ai có quan hệ huyết thống với
-                                                bạn trong database hiện tại.</p>
+                                            <div class="display-1 opacity-25 mb-3">
+                                                😔
+                                            </div>
+                                            <h5 class="text-muted">
+                                                Chưa
+                                                tìm
+                                                thấy
+                                                người
+                                                thân
+                                            </h5>
+                                            <p class="text-muted">
+                                                Hệ
+                                                thống
+                                                không
+                                                tìm
+                                                thấy
+                                                ai
+                                                có
+                                                quan
+                                                hệ
+                                                huyết
+                                                thống
+                                                với
+                                                bạn
+                                                trong
+                                                database
+                                                hiện
+                                                tại.
+                                            </p>
                                         </div>
                                     </c:when>
                                     <c:otherwise>
@@ -142,9 +256,31 @@
                                         <div class="alert alert-success d-flex align-items-center mb-4" role="alert">
                                             <i class="bi bi-check-circle-fill fs-4 me-3"></i>
                                             <div>
-                                                <strong>Tìm thấy ${matchCount} người có quan hệ huyết thống!</strong>
-                                                <p class="mb-0 small">Hệ thống đã so sánh và phát hiện mối quan hệ gen
-                                                    di truyền.</p>
+                                                <strong>Tìm
+                                                    thấy
+                                                    ${matchCount}
+                                                    người
+                                                    có
+                                                    quan
+                                                    hệ
+                                                    huyết
+                                                    thống!</strong>
+                                                <p class="mb-0 small">
+                                                    Hệ
+                                                    thống
+                                                    đã
+                                                    so
+                                                    sánh
+                                                    và
+                                                    phát
+                                                    hiện
+                                                    mối
+                                                    quan
+                                                    hệ
+                                                    gen
+                                                    di
+                                                    truyền.
+                                                </p>
                                             </div>
                                         </div>
 
@@ -164,16 +300,20 @@
                                                                         style="width: 70px; height: 70px; font-size: 2rem;">
                                                                         <c:choose>
                                                                             <c:when
-                                                                                test="${relativeUser.gender == 'M'}">👨
+                                                                                test="${relativeUser.gender == 'M'}">
+                                                                                👨
                                                                             </c:when>
-                                                                            <c:otherwise>👩</c:otherwise>
+                                                                            <c:otherwise>
+                                                                                👩
+                                                                            </c:otherwise>
                                                                         </c:choose>
                                                                     </div>
                                                                 </div>
 
                                                                 <!-- User Info -->
                                                                 <div class="col">
-                                                                    <h5 class="mb-2 fw-bold">${relativeUser.fullName}
+                                                                    <h5 class="mb-2 fw-bold">
+                                                                        ${relativeUser.fullName}
                                                                     </h5>
                                                                     <div
                                                                         class="d-flex flex-wrap gap-3 small text-muted mb-2">
@@ -215,7 +355,9 @@
                                                                 <!-- Statistics -->
                                                                 <div class="col-auto text-end">
                                                                     <div class="mb-2">
-                                                                        <div class="text-muted small">CPI</div>
+                                                                        <div class="text-muted small">
+                                                                            CPI
+                                                                        </div>
                                                                         <div class="fw-bold fs-5 text-primary">
                                                                             <fmt:formatNumber
                                                                                 value="${result.paternityIndex}"
@@ -223,17 +365,25 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="mb-2">
-                                                                        <div class="text-muted small">Độ tương đồng
+                                                                        <div class="text-muted small">
+                                                                            Độ
+                                                                            tương
+                                                                            đồng
                                                                         </div>
                                                                         <div class="fw-bold text-success">
                                                                             <fmt:formatNumber
                                                                                 value="${result.similarityPercent}"
-                                                                                pattern="#.##" />%
+                                                                                pattern="#.##" />
+                                                                            %
                                                                         </div>
                                                                     </div>
                                                                     <div>
-                                                                        <div class="text-muted small">Locus khớp</div>
-                                                                        <div class="fw-bold">${result.matchedLocus}/15
+                                                                        <div class="text-muted small">
+                                                                            Locus
+                                                                            khớp
+                                                                        </div>
+                                                                        <div class="fw-bold">
+                                                                            ${result.matchedLocus}/15
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -253,14 +403,39 @@
                             <div class="card-body p-4">
                                 <h5 class="fw-bold mb-3">
                                     <i class="bi bi-info-circle-fill text-primary me-2"></i>
-                                    Giải thích chỉ số
+                                    Giải thích chỉ
+                                    số
                                 </h5>
                                 <ul class="mb-0">
-                                    <li class="mb-2"><strong>CPI (Combined Paternity Index):</strong> Chỉ số xác định
-                                        quan hệ cha-con. CPI > 10,000 = Chắc chắn có quan hệ.</li>
-                                    <li class="mb-2"><strong>Độ tương đồng:</strong> Tỷ lệ % khả năng có quan hệ huyết
-                                        thống.</li>
-                                    <li><strong>Locus khớp:</strong> Số vị trí gen (STR markers) có allele chung giữa 2
+                                    <li class="mb-2">
+                                        <strong>CPI
+                                            (Combined
+                                            Paternity
+                                            Index):</strong>
+                                        Chỉ số xác
+                                        định
+                                        quan hệ
+                                        cha-con. CPI
+                                        > 10,000 =
+                                        Chắc chắn có
+                                        quan hệ.
+                                    </li>
+                                    <li class="mb-2">
+                                        <strong>Độ
+                                            tương
+                                            đồng:</strong>
+                                        Tỷ lệ % khả
+                                        năng có quan
+                                        hệ huyết
+                                        thống.
+                                    </li>
+                                    <li><strong>Locus
+                                            khớp:</strong>
+                                        Số vị trí
+                                        gen (STR
+                                        markers) có
+                                        allele chung
+                                        giữa 2
                                         người.</li>
                                 </ul>
                             </div>

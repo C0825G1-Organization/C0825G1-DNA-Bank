@@ -7,6 +7,7 @@ import com.codegym.dna_bank.entity.DNASample;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class DNAComparisonRepository {
      * @param sample2Id ID mẫu DNA 2 (giả định là "con")
      * @return ComparisonResult chứa CPI, probability, relationship
      */
-    public ComparisonResult compareDNA(int sample1Id, int sample2Id) {
+    public ComparisonResult compareDNA(int sample1Id, int sample2Id) throws SQLException {
         // Lấy dữ liệu DNA của 2 mẫu
         List<DNALocusResult> sample1Loci = dnaLocusRepo.findBySampleId(sample1Id);
         List<DNALocusResult> sample2Loci = dnaLocusRepo.findBySampleId(sample2Id);

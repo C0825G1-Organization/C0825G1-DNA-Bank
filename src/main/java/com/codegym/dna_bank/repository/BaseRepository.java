@@ -8,23 +8,23 @@ public class BaseRepository {
 
     private static String jdbcURL = "jdbc:mysql://localhost:3306/dna_system?useSSL=false&serverTimezone=UTC";
     private static String jdbcUsername = "root";
-    private static String jdbcPassword = "sinh6802";
-    private static Connection connection = null;
+    private static String jdbcPassword = "123456";
+    
     private BaseRepository() {
-
+        // Private constructor to prevent instantiation
     }
-    static {
+
+    /**
+     * Get a NEW database connection.
+     * This method creates a fresh connection each time it's called.
+     * Callers are responsible for closing the connection.
+     */
+    public static Connection getConnection() throws SQLException {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-        } catch (SQLException e) {
-            e.printStackTrace();
+            return DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            throw new SQLException("MySQL JDBC Driver not found", e);
         }
-    }
-
-    public static Connection getConnection() {
-        return connection;
     }
 }

@@ -26,11 +26,16 @@ public class UserService implements IUserService {
 
     @Override
     public boolean save(User user) throws SQLException {
-        return false;
+        return userRepository.insert(user);
     }
 
     @Override
     public boolean update(User user) throws SQLException {
-        return false;
+        return userRepository.update(user);
+    }
+
+    @Override
+    public User findByAccountId(int accountId) {
+        return userRepository.findByAccountId(accountId);
     }
 }
