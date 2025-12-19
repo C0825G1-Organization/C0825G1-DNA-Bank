@@ -260,53 +260,39 @@
                                     Bộ lọc tìm kiếm
                                 </h5>
 
-                                <!-- Province Filter -->
-                                <div class="mb-4">
-                                    <label class="form-label fw-semibold small text-muted">Tỉnh/Thành phố</label>
-                                    <select class="form-select">
-                                        <option selected>Tất cả</option>
-                                        <option value="hanoi">Hà Nội</option>
-                                        <option value="hcm">TP. Hồ Chí Minh</option>
-                                        <option value="danang">Đà Nẵng</option>
-                                        <option value="haiphong">Hải Phòng</option>
-                                        <option value="cantho">Cần Thơ</option>
-                                    </select>
-                                </div>
+                                <form method="GET" action="home" id="filterForm">
+                                    <!-- Province Filter -->
+                                    <div class="mb-4">
+                                        <label class="form-label fw-semibold small text-muted">Tỉnh/Thành phố</label>
+                                        <input type="text" class="form-control" name="address" id="addressFilter"
+                                            placeholder="Nhập tên tỉnh/thành phố..."
+                                            value="${selectedAddress != null ? selectedAddress : ''}">
+                                        <small class="text-muted">Ví dụ: Hà Nội, Hồ Chí Minh, Đà Nẵng...</small>
+                                    </div>
 
-                                <!-- Age Filter -->
-                                <div class="mb-4">
-                                    <label class="form-label fw-semibold small text-muted">Độ tuổi</label>
-                                    <select class="form-select">
-                                        <option selected>Tất cả</option>
-                                        <option value="0-18">0-18 tuổi</option>
-                                        <option value="19-30">19-30 tuổi</option>
-                                        <option value="31-45">31-45 tuổi</option>
-                                        <option value="46-60">46-60 tuổi</option>
-                                        <option value="60+">Trên 60 tuổi</option>
-                                    </select>
-                                </div>
+                                    <!-- Gender Filter -->
+                                    <div class="mb-4">
+                                        <label class="form-label fw-semibold small text-muted">Giới tính</label>
+                                        <select class="form-select" name="gender" id="genderFilter">
+                                            <option value="">Tất cả</option>
+                                            <option value="M" ${selectedGender=='M' ? 'selected' : '' }>Nam</option>
+                                            <option value="F" ${selectedGender=='F' ? 'selected' : '' }>Nữ</option>
+                                        </select>
+                                    </div>
 
-                                <!-- Gender Filter -->
-                                <div class="mb-4">
-                                    <label class="form-label fw-semibold small text-muted">Giới tính</label>
-                                    <select class="form-select">
-                                        <option selected>Tất cả</option>
-                                        <option value="male">Nam</option>
-                                        <option value="female">Nữ</option>
-                                    </select>
-                                </div>
+                                    <!-- Apply Button -->
+                                    <button type="submit" class="btn btn-primary w-100 rounded-3">
+                                        <i class="bi bi-search me-2"></i>
+                                        Áp dụng bộ lọc
+                                    </button>
 
-                                <!-- Apply Button -->
-                                <button class="btn btn-primary w-100 rounded-3">
-                                    <i class="bi bi-search me-2"></i>
-                                    Áp dụng bộ lọc
-                                </button>
-
-                                <!-- Reset Button -->
-                                <button class="btn btn-outline-secondary w-100 rounded-3 mt-2">
-                                    <i class="bi bi-arrow-clockwise me-2"></i>
-                                    Đặt lại
-                                </button>
+                                    <!-- Reset Button -->
+                                    <button type="button" class="btn btn-outline-secondary w-100 rounded-3 mt-2"
+                                        onclick="resetFilters()">
+                                        <i class="bi bi-arrow-clockwise me-2"></i>
+                                        Đặt lại
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -348,8 +334,7 @@
                                                                     <div class="card-gradient-icon"
                                                                         style="width: 50px; height: 50px; font-size: 1.2rem;">
                                                                         <c:choose>
-                                                                            <c:when
-                                                                                test="${user.gender == 'Nam' || user.gender == 'male'}">
+                                                                            <c:when test="${user.gender == 'M'}">
                                                                                 👨
                                                                             </c:when>
                                                                             <c:otherwise>
@@ -369,8 +354,7 @@
                                                                                 class="bi bi-calendar me-1"></i>${user.dob}</span>
                                                                         <span>
                                                                             <c:choose>
-                                                                                <c:when
-                                                                                    test="${user.gender == 'Nam' || user.gender == 'male'}">
+                                                                                <c:when test="${user.gender == 'M'}">
                                                                                     <i
                                                                                         class="bi bi-gender-male me-1"></i>Nam
                                                                                 </c:when>
@@ -412,6 +396,13 @@
             </div>
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script>
+                function resetFilters() {
+                    document.getElementById('addressFilter').value = '';
+                    document.getElementById('genderFilter').value = '';
+                    document.getElementById('filterForm').submit();
+                }
+            </script>
         </body>
 
         </html>
