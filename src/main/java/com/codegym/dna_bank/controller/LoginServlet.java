@@ -60,6 +60,7 @@ public class LoginServlet extends HttpServlet {
         session.setAttribute("account", account);
         session.setAttribute("accountId", account.getAccountId());
         session.setAttribute("username", account.getUsername());
+        session.setAttribute("role", account.getRole());
 
         // Lấy thông tin user
         User user = userService.findByAccountId(account.getAccountId());
@@ -95,7 +96,11 @@ public class LoginServlet extends HttpServlet {
             }
         }
 
-        // Redirect về trang chủ
-        resp.sendRedirect(req.getContextPath() + "/home");
+        // Redirect dựa trên role
+        if ("ADMIN".equals(account.getRole())) {
+            resp.sendRedirect(req.getContextPath() + "/admin?action=dashboard");
+        } else {
+            resp.sendRedirect(req.getContextPath() + "/home");
+        }
     }
 }
