@@ -14,7 +14,7 @@ public class DNALocusResultRepository {
 //    public List<DNALocusResult> findBySampleId(int sampleId) {
 
     public boolean insert(DNALocusResult result) throws SQLException {
-        String sql = "INSERT INTO dna_locus_result (sample_id, locus_id, allele_1, allele_2) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO dna_locus_results (sample_id, locus_id, allele_1, allele_2) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = BaseRepository.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -33,12 +33,10 @@ public class DNALocusResultRepository {
     }
 
     public boolean insertBatch(List<DNALocusResult> results) throws SQLException {
-        String sql = "INSERT INTO dna_locus_result (sample_id, locus_id, allele_1, allele_2) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO dna_locus_results (sample_id, locus_id, allele_1, allele_2) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = BaseRepository.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            conn.setAutoCommit(false);
 
             for (DNALocusResult result : results) {
                 stmt.setInt(1, result.getSampleId());
@@ -49,9 +47,8 @@ public class DNALocusResultRepository {
             }
 
             int[] affectedRows = stmt.executeBatch();
-            conn.commit();
-
             return affectedRows.length == results.size();
+            
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;
@@ -59,7 +56,6 @@ public class DNALocusResultRepository {
     }
 
     public List<DNALocusResult> findBySampleId(int sampleId) throws SQLException {
-//        String sql = "SELECT * FROM dna_locus_result WHERE sample_id = ? ORDER BY locus_id";
         List<DNALocusResult> results = new ArrayList<>();
         String sql = "SELECT sample_id, locus_id, allele_1, allele_2 " +
                 "FROM dna_locus_results WHERE sample_id = ? ORDER BY locus_id";

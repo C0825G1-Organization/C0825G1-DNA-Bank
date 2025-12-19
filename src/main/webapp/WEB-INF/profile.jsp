@@ -220,6 +220,22 @@
                     </div>
                 </c:if>
 
+                <!-- Success Message -->
+                <c:if test="${not empty successMessage}">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle-fill me-2"></i>${successMessage}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                </c:if>
+
+                <!-- Info Message -->
+                <c:if test="${not empty infoMessage}">
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        <i class="bi bi-info-circle-fill me-2"></i>${infoMessage}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                </c:if>
+
                 <!-- User Information Card -->
                 <div class="card shadow-lg border-0 rounded-4 mb-4">
                     <div class="card-body p-4">
@@ -231,82 +247,153 @@
                                 <div class="text-primary fw-semibold small">Thông tin cá nhân</div>
                                 <div class="fw-bold fs-5">${not empty user ? user.fullName : 'Chưa cập nhật'}</div>
                             </div>
+                            <button type="button" class="btn btn-outline-primary rounded-3" id="editBtn"
+                                onclick="toggleEditMode()">
+                                <i class="bi bi-pencil-square me-2"></i>Chỉnh sửa
+                            </button>
                         </div>
 
-                        <div class="row g-4">
-                            <div class="col-md-6">
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="detail-icon">
-                                        <i class="bi bi-envelope"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <div class="info-label">Email</div>
-                                        <div class="info-value">${not empty user.email ? user.email : 'Chưa cập nhật'}
+                        <!-- View Mode -->
+                        <div id="viewMode">
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="detail-icon">
+                                            <i class="bi bi-envelope"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div class="info-label">Email</div>
+                                            <div class="info-value">${not empty user.email ? user.email : 'Chưa cập
+                                                nhật'}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="detail-icon">
-                                        <i class="bi bi-telephone"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <div class="info-label">Số điện thoại</div>
-                                        <div class="info-value">${not empty user.phone ? user.phone : 'Chưa cập nhật'}
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="detail-icon">
+                                            <i class="bi bi-telephone"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div class="info-label">Số điện thoại</div>
+                                            <div class="info-value">${not empty user.phone ? user.phone : 'Chưa cập
+                                                nhật'}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="detail-icon">
-                                        <i class="bi bi-calendar-event"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <div class="info-label">Ngày sinh</div>
-                                        <div class="info-value">${not empty user.dob ? user.formattedDob : 'Chưa cập
-                                            nhật'}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="detail-icon">
-                                        <i class="bi bi-gender-ambiguous"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <div class="info-label">Giới tính</div>
-                                        <div class="info-value">${not empty user.gender ? user.gender : 'Chưa cập nhật'}
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="detail-icon">
+                                            <i class="bi bi-calendar-event"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div class="info-label">Ngày sinh</div>
+                                            <div class="info-value">${not empty user.dob ? user.formattedDob : 'Chưa cập
+                                                nhật'}</div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="d-flex align-items-start gap-3">
-                                    <div class="detail-icon">
-                                        <i class="bi bi-geo-alt"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <div class="info-label">Địa chỉ</div>
-                                        <div class="info-value">${not empty user.address ? user.address : 'Chưa cập
-                                            nhật'}</div>
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="detail-icon">
+                                            <i class="bi bi-gender-ambiguous"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div class="info-label">Giới tính</div>
+                                            <div class="info-value">${not empty user.gender ? user.gender : 'Chưa cập
+                                                nhật'}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="detail-icon">
-                                        <i class="bi bi-clock-history"></i>
+                                <div class="col-12">
+                                    <div class="d-flex align-items-start gap-3">
+                                        <div class="detail-icon">
+                                            <i class="bi bi-geo-alt"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div class="info-label">Địa chỉ</div>
+                                            <div class="info-value">${not empty user.address ? user.address : 'Chưa cập
+                                                nhật'}</div>
+                                        </div>
                                     </div>
-                                    <div class="flex-grow-1">
-                                        <div class="info-label">Ngày đăng ký</div>
-                                        <div class="info-value">${not empty user.createdAt ? user.createdAt : 'Chưa cập
-                                            nhật'}</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="detail-icon">
+                                            <i class="bi bi-clock-history"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div class="info-label">Ngày đăng ký</div>
+                                            <div class="info-value">${not empty user.createdAt ? user.createdAt : 'Chưa
+                                                cập
+                                                nhật'}</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Edit Mode -->
+                        <form action="home?action=updateProfile" method="post" id="editMode" style="display: none;">
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label for="fullName" class="form-label">Họ và tên</label>
+                                    <input type="text" class="form-control" id="fullName" name="fullName"
+                                        value="${user.fullName}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        value="${user.email}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="phone" class="form-label">Số điện thoại</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone" value="${user.phone}"
+                                        required pattern="[0-9]{10,11}">
+                                    <small class="text-muted">Định dạng: 10-11 chữ số</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="dob" class="form-label">Ngày sinh</label>
+                                    <input type="date" class="form-control" id="dob" name="dob" value="${user.dob}"
+                                        required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Giới tính</label>
+                                    <div class="d-flex gap-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="gender" id="genderMale"
+                                                value="Nam" ${user.gender=='Nam' ? 'checked' : '' } required>
+                                            <label class="form-check-label" for="genderMale">
+                                                <i class="bi bi-gender-male text-primary"></i> Nam
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="gender" id="genderFemale"
+                                                value="Nữ" ${user.gender=='Nữ' ? 'checked' : '' } required>
+                                            <label class="form-check-label" for="genderFemale">
+                                                <i class="bi bi-gender-female text-danger"></i> Nữ
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label for="address" class="form-label">Địa chỉ</label>
+                                    <textarea class="form-control" id="address" name="address" rows="3"
+                                        required>${user.address}</textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary rounded-3">
+                                        <i class="bi bi-check-circle me-2"></i>Lưu thay đổi
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary rounded-3 ms-2"
+                                        onclick="toggleEditMode()">
+                                        <i class="bi bi-x-circle me-2"></i>Hủy
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -421,6 +508,32 @@
             </div>
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script>
+                function toggleEditMode() {
+                    const viewMode = document.getElementById('viewMode');
+                    const editMode = document.getElementById('editMode');
+                    const editBtn = document.getElementById('editBtn');
+
+                    if (viewMode.style.display === 'none') {
+                        // Switch to view mode
+                        viewMode.style.display = 'block';
+                        editMode.style.display = 'none';
+                        editBtn.innerHTML = '<i class="bi bi-pencil-square me-2"></i>Chỉnh sửa';
+                    } else {
+                        // Switch to edit mode
+                        viewMode.style.display = 'none';
+                        editMode.style.display = 'block';
+                        editBtn.innerHTML = '<i class="bi bi-eye me-2"></i>Xem';
+                    }
+                }
+
+                // Set max date for DOB (must be in the past)
+                const dobInput = document.getElementById('dob');
+                if (dobInput) {
+                    const today = new Date().toISOString().split('T')[0];
+                    dobInput.setAttribute('max', today);
+                }
+            </script>
         </body>
 
         </html>

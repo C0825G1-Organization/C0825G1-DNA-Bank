@@ -122,8 +122,11 @@
                                                     <img src="https://ui-avatars.com/api/?name=User&background=667eea&color=fff"
                                                         alt="User" class="rounded-circle" width="40" height="40">
                                                     <div>
-                                                        <div class="fw-bold">Người dùng</div>
-                                                        <div class="small text-muted">user@example.com</div>
+                                                        <div class="fw-bold">${not empty sessionScope.fullName ?
+                                                            sessionScope.fullName : 'Người dùng'}</div>
+                                                        <div class="small text-muted">${not empty sessionScope.username
+                                                            ?
+                                                            sessionScope.username : 'Chưa đăng nhập'}</div>
                                                     </div>
                                                 </div>
                                             </li>
