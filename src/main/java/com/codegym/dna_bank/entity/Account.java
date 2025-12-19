@@ -8,6 +8,7 @@ public class Account {
     private String password;
     private LocalDateTime createdAt;
     private LocalDateTime lastLogin;
+    private String role; // "USER" or "ADMIN"
 
     public Account() {
     }
@@ -16,14 +17,16 @@ public class Account {
         this.username = username;
         this.password = password;
         this.createdAt = LocalDateTime.now();
+        this.role = "USER";
     }
 
-    public Account(Integer accountId, String username, String password, LocalDateTime createdAt, LocalDateTime lastLogin) {
+    public Account(Integer accountId, String username, String password, LocalDateTime createdAt, LocalDateTime lastLogin, String role) {
         this.accountId = accountId;
         this.username = username;
         this.password = password;
         this.createdAt = createdAt;
         this.lastLogin = lastLogin;
+        this.role = role;
     }
 
     public Integer getAccountId() {
@@ -64,5 +67,13 @@ public class Account {
 
     public void setLastLogin(LocalDateTime lastLogin) {
         this.lastLogin = lastLogin;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

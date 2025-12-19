@@ -162,4 +162,16 @@ public class UserRepository {
             throw e;
         }
     }
+
+    public boolean delete(int userId) throws SQLException {
+        String sql = "DELETE FROM users WHERE user_id = ?";
+        try (PreparedStatement preparedStatement = BaseRepository.getConnection().prepareStatement(sql)) {
+            preparedStatement.setInt(1, userId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }
