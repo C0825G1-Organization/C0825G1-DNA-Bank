@@ -45,6 +45,25 @@ public class DNAServlet extends HttpServlet {
         if (action == null) {
             action = "";
         }
+        
+        // Check if user has profile information (except when accessing upload page or logging out)
+        if (!"upload".equals(action) && !"logout".equals(action)) {
+            try {
+                User currentUser = userService.findByAccountId(accountId);
+                if (currentUser == null) {
+                    // User doesn't have profile yet, redirect to upload page
+                    resp.sendRedirect(req.getContextPath() + "/home?action=upload");
+                    return;
+                }
+                // Store user info in session for easy access
+                req.getSession().setAttribute("userId", currentUser.getUserId());
+                req.getSession().setAttribute("user", currentUser);
+                req.getSession().setAttribute("fullName", currentUser.getFullName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
         switch (action) {
             case "":
             case "/":
@@ -68,6 +87,21 @@ public class DNAServlet extends HttpServlet {
                 break;
 
             case "upload":
+                // Check if user already has DNA sample
+                try {
+                    Integer currentUserId = (Integer) req.getSession().getAttribute("userId");
+                    if (currentUserId != null) {
+                        DNASample existingSample = sampleService.findByUserId(currentUserId);
+                        if (existingSample != null) {
+                            // User already has DNA sample, redirect to profile
+                            req.getSession().setAttribute("infoMessage", "Bạn đã upload thông tin ADN rồi. Không thể upload lại.");
+                            resp.sendRedirect("home?action=profile");
+                            return;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 req.getRequestDispatcher("WEB-INF/upload.jsp").forward(req, resp);
                 break;
 
@@ -246,6 +280,13 @@ public class DNAServlet extends HttpServlet {
         switch (action) {
             case "upload":
                 try {
+                    // Get accountId from session
+                    Integer accountId = (Integer) req.getSession().getAttribute("accountId");
+                    if (accountId == null) {
+                        resp.sendRedirect(req.getContextPath() + "/login");
+                        return;
+                    }
+                    
                     // Extract form parameters
                     String fullName = req.getParameter("fullName");
                     String email = req.getParameter("email");
@@ -273,15 +314,19 @@ public class DNAServlet extends HttpServlet {
                     LocalDate dob = LocalDate.parse(dobString);
                     LocalDate testDate = LocalDate.parse(testDateString);
                     
+                    // Convert gender from Vietnamese to single character
+                    // "Nam" -> "M", "Nữ" -> "F" (for database compatibility)
+                    String genderCode = gender.equals("Nam") ? "M" : "F";
+                    
                     // Create User object
                     User user = new User();
                     user.setFullName(fullName);
                     user.setEmail(email);
                     user.setPhone(phone);
                     user.setDob(dob);
-                    user.setGender(gender);
+                    user.setGender(genderCode);
                     user.setAddress(address);
-                    user.setAccountId(null);
+                    user.setAccountId(accountId);
                     
                     // Save user to database
                     boolean userSaved = userService.save(user);
@@ -292,15 +337,19 @@ public class DNAServlet extends HttpServlet {
                         return;
                     }
                     
-                    // Get the saved user ID (we need to retrieve it from database)
-                    // For now, we'll get the last inserted user - in production, use RETURNING clause or last_insert_id
-                    List<User> users = userService.findAll();
-                    Integer userId = users.get(users.size() - 1).getUserId();
+                    // Get the saved user from database using accountId
+                    User savedUser = userService.findByAccountId(accountId);
+                    if (savedUser == null) {
+                        req.setAttribute("errorMessage", "Không thể lấy thông tin người dùng sau khi lưu!");
+                        req.getRequestDispatcher("WEB-INF/upload.jsp").forward(req, resp);
+                        return;
+                    }
+                    Integer userId = savedUser.getUserId();
                     
                     // Create DNA Sample
                     DNASample dnaSample = new DNASample();
                     dnaSample.setUserId(userId);
-                    dnaSample.setGender(gender);
+                    dnaSample.setGender(genderCode);
                     dnaSample.setTestDate(testDate);
 
                     Integer sampleId = sampleService.insert(dnaSample);
@@ -334,6 +383,11 @@ public class DNAServlet extends HttpServlet {
                     boolean locusSaved = locusResultService.insertBatch(locusResults);
                     
                     if (locusSaved) {
+                        // Update session with user information
+                        req.getSession().setAttribute("userId", userId);
+                        req.getSession().setAttribute("user", savedUser);
+                        req.getSession().setAttribute("fullName", savedUser.getFullName());
+                        
                         // Success - redirect to home with success message
                         req.getSession().setAttribute("successMessage", "Upload thông tin ADN và 16 đoạn gen thành công!");
                         resp.sendRedirect("home");
@@ -346,6 +400,79 @@ public class DNAServlet extends HttpServlet {
                     e.printStackTrace();
                     req.setAttribute("errorMessage", "Có lỗi xảy ra: " + e.getMessage());
                     req.getRequestDispatcher("WEB-INF/upload.jsp").forward(req, resp);
+                }
+                break;
+            
+            case "updateProfile":
+                try {
+                    // Get userId from session
+                    Integer userId = (Integer) req.getSession().getAttribute("userId");
+                    if (userId == null) {
+                        resp.sendRedirect(req.getContextPath() + "/login");
+                        return;
+                    }
+                    
+                    // Extract form parameters
+                    String fullName = req.getParameter("fullName");
+                    String email = req.getParameter("email");
+                    String phone = req.getParameter("phone");
+                    String dobString = req.getParameter("dob");
+                    String gender = req.getParameter("gender");
+                    String address = req.getParameter("address");
+                    
+                    // Validate required fields
+                    if (fullName == null || fullName.trim().isEmpty() ||
+                        email == null || email.trim().isEmpty() ||
+                        phone == null || phone.trim().isEmpty() ||
+                        dobString == null || dobString.trim().isEmpty() ||
+                        gender == null || gender.trim().isEmpty() ||
+                        address == null || address.trim().isEmpty()) {
+                        
+                        req.setAttribute("errorMessage", "Vui lòng điền đầy đủ thông tin bắt buộc!");
+                        req.getRequestDispatcher("WEB-INF/profile.jsp").forward(req, resp);
+                        return;
+                    }
+                    
+                    // Parse date
+                    LocalDate dob = LocalDate.parse(dobString);
+                    
+                    // Get existing user
+                    User user = userService.findById(userId);
+                    if (user == null) {
+                        req.setAttribute("errorMessage", "Không tìm thấy thông tin người dùng!");
+                        req.getRequestDispatcher("WEB-INF/profile.jsp").forward(req, resp);
+                        return;
+                    }
+                    
+                    // Update user information
+                    user.setFullName(fullName);
+                    user.setEmail(email);
+                    user.setPhone(phone);
+                    user.setDob(dob);
+                    user.setGender(gender);
+                    user.setAddress(address);
+                    
+                    // Save to database
+                    boolean updated = userService.update(user);
+                    
+                    if (updated) {
+                        // Update session with new user info
+                        req.getSession().setAttribute("user", user);
+                        req.getSession().setAttribute("fullName", fullName);
+                        
+                        req.setAttribute("successMessage", "Cập nhật thông tin thành công!");
+                        req.setAttribute("user", user);
+                        req.getRequestDispatcher("WEB-INF/profile.jsp").forward(req, resp);
+                    } else {
+                        req.setAttribute("errorMessage", "Có lỗi xảy ra khi cập nhật thông tin!");
+                        req.setAttribute("user", user);
+                        req.getRequestDispatcher("WEB-INF/profile.jsp").forward(req, resp);
+                    }
+                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    req.setAttribute("errorMessage", "Có lỗi xảy ra: " + e.getMessage());
+                    req.getRequestDispatcher("WEB-INF/profile.jsp").forward(req, resp);
                 }
                 break;
                 

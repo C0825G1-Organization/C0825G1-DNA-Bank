@@ -171,22 +171,27 @@
                       <img src="https://ui-avatars.com/api/?name=User&background=667eea&color=fff" alt="User"
                         class="rounded-circle" width="40" height="40">
                       <div>
-                        <div class="fw-bold">Người dùng</div>
-                        <div class="small text-muted">user@example.com</div>
+                        <div class="fw-bold">${not empty sessionScope.fullName ?
+                          sessionScope.fullName : 'Người dùng'}</div>
+                        <div class="small text-muted">${not empty sessionScope.username ?
+                          sessionScope.username : 'Chưa đăng nhập'}</div>
                       </div>
                     </div>
                   </li>
-                    <li><a class="dropdown-item py-2" href="home?action=profile"><i
-                            class="bi bi-person me-2"></i>Hồ sơ cá nhân</a></li>
-                    <li>
-<%--                  <li><a class="dropdown-item py-2" href="#"><i class="bi bi-gear me-2"></i>Cài--%>
-<%--                      đặt</a></li>--%>
-<%--                  <li><a class="dropdown-item py-2" href="#"><i class="bi bi-question-circle me-2"></i>Trợ giúp</a></li>--%>
+                  <li><a class="dropdown-item py-2" href="home?action=profile"><i class="bi bi-person me-2"></i>Hồ sơ cá
+                      nhân</a></li>
                   <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item py-2 text-danger" href="#"><i class="bi bi-box-arrow-right me-2"></i>Đăng
-                      xuất</a></li>
+                    <%-- <li><a class="dropdown-item py-2" href="#"><i class="bi bi-gear me-2"></i>Cài--%>
+                        <%-- đặt</a>
+                  </li>--%>
+                  <%-- <li><a class="dropdown-item py-2" href="#"><i class="bi bi-question-circle me-2"></i>Trợ giúp</a>
+                    </li>--%>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item py-2 text-danger" href="home?action=logout"><i
+                          class="bi bi-box-arrow-right me-2"></i>Đăng
+                        xuất</a></li>
                 </ul>
               </div>
             </div>
