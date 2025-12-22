@@ -178,32 +178,28 @@ public class UserRepository {
     public List<User> findAllWithFilters(Integer excludeUserId, String address, String gender) throws SQLException {
         StringBuilder sql = new StringBuilder("SELECT * FROM users WHERE 1=1");
         List<Object> parameters = new ArrayList<>();
-        
-        // Exclude specific user
+
         if (excludeUserId != null) {
             sql.append(" AND user_id != ?");
             parameters.add(excludeUserId);
         }
-        
-        // Filter by address (partial match)
+
         if (address != null && !address.trim().isEmpty() && !"all".equalsIgnoreCase(address)) {
             sql.append(" AND address LIKE ?");
             parameters.add("%" + address + "%");
         }
-        
-        // Filter by gender
+
         if (gender != null && !gender.trim().isEmpty() && !"all".equalsIgnoreCase(gender)) {
             sql.append(" AND gender = ?");
             parameters.add(gender);
         }
-        
+
         List<User> users = new ArrayList<>();
         try (PreparedStatement preparedStatement = BaseRepository.getConnection().prepareStatement(sql.toString())) {
-            // Set parameters
             for (int i = 0; i < parameters.size(); i++) {
                 preparedStatement.setObject(i + 1, parameters.get(i));
             }
-            
+
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     users.add(mapResultSetToUser(resultSet));
@@ -213,7 +209,55 @@ public class UserRepository {
             e.printStackTrace();
             throw e;
         }
-        
+        return users;
+    }
+
+    public List<User> searchUsers(String keyword, String sortBy, String order) throws SQLException {
+        StringBuilder sql = new StringBuilder("SELECT * FROM users WHERE 1=1");
+        List<Object> parameters = new ArrayList<>();
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql.append(" AND (full_name LIKE ? OR email LIKE ? OR phone LIKE ?)");
+            String pattern = "%" + keyword.trim() + "%";
+            parameters.add(pattern);
+            parameters.add(pattern);
+            parameters.add(pattern);
+        }
+
+        // Validate sortBy column
+        String sortColumn = "created_at"; // default
+        if (sortBy != null) {
+            switch (sortBy) {
+                case "id": sortColumn = "user_id"; break;
+                case "name": sortColumn = "full_name"; break;
+                case "email": sortColumn = "email"; break;
+                case "date": sortColumn = "created_at"; break;
+            }
+        }
+
+        // Validate order
+        String sortOrder = "DESC"; // default
+        if ("asc".equalsIgnoreCase(order)) {
+            sortOrder = "ASC";
+        }
+
+        sql.append(" ORDER BY ").append(sortColumn).append(" ").append(sortOrder);
+
+        List<User> users = new ArrayList<>();
+        try (PreparedStatement preparedStatement = BaseRepository.getConnection().prepareStatement(sql.toString())) {
+            for (int i = 0; i < parameters.size(); i++) {
+                preparedStatement.setObject(i + 1, parameters.get(i));
+            }
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    users.add(mapResultSetToUser(resultSet));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
         return users;
     }
 }

@@ -46,6 +46,7 @@
                 .sidebar-brand span {
                     background: var(--primary-gradient);
                     -webkit-background-clip: text;
+                    background-clip: text;
                     -webkit-text-fill-color: transparent;
                 }
 
@@ -149,6 +150,95 @@
                     background: #fff1f2;
                     color: #f43f5e;
                 }
+
+                /* Search & Filter Bar */
+                .filter-card {
+                    background: white;
+                    border-radius: 20px;
+                    padding: 1.5rem;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+                    margin-bottom: 2rem;
+                }
+
+                .filter-form {
+                    display: grid;
+                    grid-template-columns: 1fr auto auto;
+                    gap: 1.5rem;
+                    align-items: end;
+                }
+
+                .form-label {
+                    font-weight: 700;
+                    color: #636e72;
+                    margin-bottom: 0.8rem;
+                    font-size: 0.9rem;
+                    display: block;
+                }
+
+                .form-control,
+                .form-select {
+                    border: 2px solid #f1f2f6;
+                    border-radius: 12px;
+                    padding: 0.8rem 1.2rem;
+                    transition: all 0.3s;
+                    font-weight: 500;
+                }
+
+                .form-control:focus,
+                .form-select:focus {
+                    border-color: var(--primary-color);
+                    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+                }
+
+                .btn-filter {
+                    background: var(--primary-gradient);
+                    color: white;
+                    border: none;
+                    border-radius: 12px;
+                    padding: 0.8rem 2rem;
+                    font-weight: 700;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    transition: all 0.3s;
+                }
+
+                .btn-filter:hover {
+                    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+                    transform: translateY(-2px);
+                }
+
+                .sort-link {
+                    color: inherit;
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                }
+
+                .sort-link:hover {
+                    color: var(--primary-color);
+                }
+
+                .btn-add {
+                    background: var(--primary-gradient);
+                    color: white;
+                    border: none;
+                    border-radius: 12px;
+                    padding: 0.8rem 1.5rem;
+                    font-weight: 700;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    transition: all 0.3s;
+                    text-decoration: none;
+                }
+
+                .btn-add:hover {
+                    color: white;
+                    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+                    transform: translateY(-2px);
+                }
             </style>
         </head>
 
@@ -170,19 +260,74 @@
 
             <div class="main-content">
                 <div class="d-flex justify-content-between align-items-center mb-5">
-                    <h1 class="fw-bold">Thông tin Người dùng</h1>
+                    <div>
+                        <h1 class="fw-bold mb-1">Thông tin Người dùng</h1>
+                        <p class="text-muted">Quản lý và tìm kiếm thông tin thành viên hệ thống</p>
+                    </div>
+                    <a href="admin?action=addUser" class="btn-add">
+                        <i class="fas fa-user-plus"></i>
+                        Thêm người dùng mới
+                    </a>
+                </div>
+
+                <!-- Filter Bar -->
+                <div class="filter-card">
+                    <form action="admin" method="get" class="filter-form" style="grid-template-columns: 1fr auto;">
+                        <input type="hidden" name="action" value="users">
+
+                        <div>
+                            <label class="form-label">Tìm kiếm</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-end-0"
+                                    style="border-radius: 12px 0 0 12px; border: 2px solid #f1f2f6;">
+                                    <i class="fas fa-search text-muted"></i>
+                                </span>
+                                <input type="text" name="search" class="form-control border-start-0"
+                                    placeholder="Tên, email hoặc số điện thoại..." value="${search}">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-filter">
+                            <i class="fas fa-filter"></i>
+                            Lọc kết quả
+                        </button>
+                    </form>
                 </div>
 
                 <div class="table-card">
                     <table>
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Họ Tên</th>
-                                <th>Email</th>
+                                <th>
+                                    <a href="admin?action=users&search=${search}&sortBy=id&order=${sortBy == 'id' && order == 'asc' ? 'desc' : 'asc'}"
+                                        class="sort-link">
+                                        ID <i
+                                            class="fas fa-sort${sortBy == 'id' ? (order == 'asc' ? '-up' : '-down') : ''} small text-muted"></i>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="admin?action=users&search=${search}&sortBy=name&order=${sortBy == 'name' && order == 'asc' ? 'desc' : 'asc'}"
+                                        class="sort-link">
+                                        Họ Tên <i
+                                            class="fas fa-sort${sortBy == 'name' ? (order == 'asc' ? '-up' : '-down') : ''} small text-muted"></i>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="admin?action=users&search=${search}&sortBy=email&order=${sortBy == 'email' && order == 'asc' ? 'desc' : 'asc'}"
+                                        class="sort-link">
+                                        Email <i
+                                            class="fas fa-sort${sortBy == 'email' ? (order == 'asc' ? '-up' : '-down') : ''} small text-muted"></i>
+                                    </a>
+                                </th>
                                 <th>Số điện thoại</th>
                                 <th>Giới tính</th>
-                                <th>Ngày tạo</th>
+                                <th>
+                                    <a href="admin?action=users&search=${search}&sortBy=date&order=${sortBy == 'date' && order == 'asc' ? 'desc' : 'asc'}"
+                                        class="sort-link">
+                                        Ngày tạo <i
+                                            class="fas fa-sort${sortBy == 'date' ? (order == 'asc' ? '-up' : '-down') : ''} small text-muted"></i>
+                                    </a>
+                                </th>
                                 <th>Thao tác</th>
                             </tr>
                         </thead>

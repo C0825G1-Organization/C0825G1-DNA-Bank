@@ -36,6 +36,9 @@ public class AdminServlet extends HttpServlet {
                 case "users":
                     listUsers(req, resp);
                     break;
+                case "addUser":
+                    showAddUserForm(req, resp);
+                    break;
                 case "accounts":
                     listAccounts(req, resp);
                     break;
@@ -66,8 +69,16 @@ public class AdminServlet extends HttpServlet {
     }
 
     private void listUsers(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
-        List<User> users = userRepo.findAll();
+        String search = req.getParameter("search");
+        String sortBy = req.getParameter("sortBy");
+        String order = req.getParameter("order");
+        
+        List<User> users = userRepo.searchUsers(search, sortBy, order);
+        
         req.setAttribute("users", users);
+        req.setAttribute("search", search);
+        req.setAttribute("sortBy", sortBy);
+        req.setAttribute("order", order);
         req.getRequestDispatcher("WEB-INF/admin/users.jsp").forward(req, resp);
     }
 
@@ -82,6 +93,10 @@ public class AdminServlet extends HttpServlet {
         User user = userRepo.findById(id);
         req.setAttribute("user", user);
         req.getRequestDispatcher("WEB-INF/admin/editUser.jsp").forward(req, resp);
+    }
+
+    private void showAddUserForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("WEB-INF/admin/addUser.jsp").forward(req, resp);
     }
 
     private void deleteUser(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {
@@ -110,11 +125,56 @@ public class AdminServlet extends HttpServlet {
         try {
             if ("editUser".equals(action)) {
                 updateUser(req, resp);
+            } else if ("addUser".equals(action)) {
+                addUser(req, resp);
             } else {
                 doGet(req, resp);
             }
         } catch (SQLException e) {
             throw new ServletException(e);
+        }
+    }
+
+    private void addUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        String fullName = req.getParameter("fullName");
+        String email = req.getParameter("email");
+        String phone = req.getParameter("phone");
+        String address = req.getParameter("address");
+        String dobStr = req.getParameter("dob");
+        String gender = req.getParameter("gender");
+        String role = req.getParameter("role");
+
+        // Simple validation
+        if (accountRepo.findByUsername(username) != null) {
+            req.setAttribute("error", "Username đã tồn tại");
+            req.getRequestDispatcher("WEB-INF/admin/addUser.jsp").forward(req, resp);
+            return;
+        }
+
+        Account account = new Account();
+        account.setUsername(username);
+        account.setPassword(password);
+        account.setRole(role);
+
+        int accountId = accountRepo.insert(account);
+        if (accountId > 0) {
+            User user = new User();
+            user.setAccountId(accountId);
+            user.setFullName(fullName);
+            user.setEmail(email);
+            user.setPhone(phone);
+            user.setAddress(address);
+            if (dobStr != null && !dobStr.isEmpty()) {
+                user.setDob(LocalDate.parse(dobStr));
+            }
+            user.setGender(gender);
+            userRepo.insert(user);
+            resp.sendRedirect("admin?action=users");
+        } else {
+            req.setAttribute("error", "Lỗi khi tạo tài khoản");
+            req.getRequestDispatcher("WEB-INF/admin/addUser.jsp").forward(req, resp);
         }
     }
 

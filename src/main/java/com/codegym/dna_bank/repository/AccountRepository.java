@@ -144,6 +144,23 @@ public class AccountRepository {
         return false;
     }
 
+    public int insert(Account account) throws SQLException {
+        String sql = "INSERT INTO `account` (username, password, role, created_at) VALUES (?, ?, ?, NOW())";
+        try (PreparedStatement ps = BaseRepository.getConnection().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, account.getUsername());
+            ps.setString(2, account.getPassword());
+            ps.setString(3, account.getRole());
+            
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) return rs.getInt(1);
+                }
+            }
+        }
+        return -1;
+    }
+
     /**
      * Xóa account
      */
